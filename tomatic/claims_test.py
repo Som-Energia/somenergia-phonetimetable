@@ -1,13 +1,24 @@
 # -*- encoding: utf-8 -*-
 
 import unittest
+import contextlib
+from erppeek_wst import ClientWST
 from yamlns import namespace as ns
 from .claims import Claims
-import erppeek
 try:
     import dbconfig
 except ImportError:
     dbconfig = None
+
+
+@contextlib.contextmanager
+def discarded_transaction(Client):
+    t = Client.begin()
+    try:
+        yield t
+    finally:
+        t.rollback()
+        t.close()
 
 
 @unittest.skipIf(
@@ -24,30 +35,30 @@ class Claims_Test(unittest.TestCase):
             return
         if not dbconfig.erppeek:
             return
-        cls.O = erppeek.Client(**dbconfig.erppeek)
+        cls.Client = ClientWST(**dbconfig.erppeek)
         cls.data_atc = dbconfig.data_atc
 
     def test_getAllClaims(self):
-        claims = Claims(self.O)
+        claims = Claims(self.Client)
         reclamacions = claims.get_claims()
-        reclamacio_obj = self.O.GiscedataSubtipusReclamacio
+        reclamacio_obj = self.Client.GiscedataSubtipusReclamacio
         nombre_reclamacions = reclamacio_obj.count()
 
         self.assertEqual(len(reclamacions), nombre_reclamacions)
 
-    @unittest.skip('WIP')
     def test_createAtcCase_ok(self):
-        # with discarded_transaction(O) as t:
-        data_crm = {
-            'description': 'Some tests.',
-            'section_id': 28,
-            'name': 'Descripcio del cas'
-        }
+        with discarded_transaction(self.Client) as t:
+            data_crm = {
+                'description': 'Some tests.',
+                'section_id': 28,
+                'name': 'Descripcio del cas'
+            }
 
-        claims = Claims(self.O)
-        case_id = claims.create_atc_case(data_crm, self.data_atc)
+            claims = Claims(t)
+            case_id = claims.create_atc_case(data_crm, self.data_atc)
 
-        self.assertEqual(case_id, 5)
+            last_atc_case_id = self.Client.GiscedataAtc.search()[-1]
+            self.assertEqual(case_id, last_atc_case_id)
 
 
 # vim: et ts=4 sw=4
