@@ -31,5 +31,15 @@ class Claims(object):
 
         return reclamacions
 
+    def create_atc_case(self, data_crm, data_atc):
+        crm_obj = self.O.CrmCase
+        crm_id = crm_obj.create(data_crm)
+
+        data_atc['crm_id'] = crm_id
+        atc_obj = self.O.GiscedataAtc
+        case_id = atc_obj.create(data_atc)
+
+        return case_id
+
 
 # vim: et ts=4 sw=4
