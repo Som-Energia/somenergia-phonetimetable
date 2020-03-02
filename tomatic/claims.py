@@ -37,9 +37,9 @@ class Claims(object):
 
         data_atc['crm_id'] = crm_id
         atc_obj = self.O.GiscedataAtc
-        case_id = atc_obj.create(data_atc)
+        case = atc_obj.create(data_atc)
 
-        return case_id
+        return case.id
 
 
 # vim: et ts=4 sw=4
