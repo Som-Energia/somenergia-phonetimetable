@@ -872,37 +872,33 @@ var lookForPhoneInfo = function() {
     }
 }
 
-var bloquejarTrucada = function() {
-    return m(Card, {
-        class: 'num-entrant',
-        content: [
-            { primary: { 
-                title: m(".text-info", [
-                    m(".label-text", "Número: "),
-                    m(".normal-text", call['phone']),
-                    m(Button, {
-                        class: 'btn-lock',
-                        label: (refresh ? lockIcon() : lockedIcon()),
-                        border: 'true',
-                        events: {
-                            onclick: function() {
-                                refresh = !refresh
-                            },
-                        },
-                    }, m(Ripple)),
-                    m(Button, {
-                        class: "btn-new-tab",
-                        label: newTabIcon(),
-                        url: {
-                            href: window.location,
-                            target:"_blank",
-                        },
-                        border: 'true',
-                    }, m(Ripple)),
-                ]),
-            } },
-        ]
-    });
+
+var lockCall = function() {
+    return m(".num-entrant", [
+        m(".text-info", [
+            m(".label-text", "Número: "),
+            m(".normal-text", call['phone']),
+            m(Button, {
+                class: 'btn-lock',
+                label: (refresh ? lockIcon() : lockedIcon()),
+                border: 'true',
+                events: {
+                    onclick: function() {
+                        refresh = !refresh
+                    },
+                },
+            }, m(Ripple)),
+            m(Button, {
+                class: "btn-new-tab",
+                label: newTabIcon(),
+                url: {
+                    href: window.location,
+                    target:"_blank",
+                },
+                border: 'true',
+            }, m(Ripple)),
+        ]),
+    ]);
 }
 
 var typeOfSearch = function() {
@@ -925,40 +921,35 @@ var typeOfSearch = function() {
     );
 }
 
-var cercaInformacio = function() {
-    return m(Card, {
-        class: 'busca-info',
-        content: [
-            { primary: {
-                title: m(".busca-info-title", [
-                typeOfSearch(),
-                m(".label", "Cercador: "),
-                m(Textfield, {
-                    class: 'txtf-phone',
-                    onChange: function(state) {
-                        CallInfo.search = state.value;
+var kalinfoBrowser = function() {
+    return m('.busca-info', [
+        m(".busca-info-title", [
+            typeOfSearch(),
+            m(".label", "Cercador: "),
+            m(Textfield, {
+                class: 'txtf-phone',
+                onChange: function(state) {
+                    CallInfo.search = state.value;
+                },
+                events: {
+                    onkeypress: function(event){
+                        uniCharCode(event)
+                    }
+                },
+                disabled: !refresh,
+            }),
+            m(Button, {
+                class: 'btn-search',
+                label: searchIcon(),
+                events: {
+                    onclick: function() {
+                        lookForPhoneInfo();
                     },
-                    events: {
-                        onkeypress: function(event){
-                            uniCharCode(event)
-                        }
-                    },
-                    disabled: !refresh,
-                }),
-                m(Button, {
-                    class: 'btn-search',
-                    label: searchIcon(),
-                    events: {
-                        onclick: function() {
-                            lookForPhoneInfo();
-                        },
-                    },
-                    disabled: !refresh,
-                }, m(Ripple)),
-            ]),
-            } },
-        ]
-    });
+                },
+                disabled: !refresh,
+            }, m(Ripple)),
+        ]),
+    ]);
 }
 
 function uniCharCode(event) {
@@ -969,19 +960,25 @@ function uniCharCode(event) {
 }
 
 CallInfo.mainPage = function() {
-    return m( '', [
-            m(".header-callinfo", [
-                cercaInformacio(),
-                bloquejarTrucada(),
-            ]),
-            m(".all-info-call", [
-                infoPhone(),
-                (me.iden !== "" ? motiu() : ""),
-                m("", [
-                    logCalls(),
-                    logPerson(),
-                ])
+    return m('', [
+        m(Card, {
+            content: [{
+                primary: {
+                    title: m('',[
+                        kalinfoBrowser(),
+                        lockCall(),
+                    ]),
+                },
+            }],
+        }),
+        m(".all-info-call", [
+            infoPhone(),
+            (me.iden !== "" ? motiu() : ""),
+            m("", [
+                logCalls(),
+                logPerson(),
             ])
+        ])
     ]);
 }
 
