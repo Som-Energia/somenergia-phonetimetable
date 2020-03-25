@@ -645,10 +645,12 @@ var motiu = function() {
                 content: m("", [
                     llistaMotius(),
                     m(".final-motius", [
+                        m("strong", "Comentaris:"),
                         m(Textfield, {
                             class: "textfield-comentaris",
-                            label: "Observacions:",
-                            floatingLabel: true,
+                            label: "Especifica més informació",
+                            multiLine: true,
+                            rows: 2,
                             dense: true,
                             value: call['extra'],
                             onChange: function(params) {
@@ -672,7 +674,7 @@ var motiu = function() {
                                 },
                             },
                             border: 'true',
-                            disabled: (call.reason === "" || desar !== "Desa" || call.date === "" ||
+                            disabled: (call.reason === "" || call.extra === "" || desar !== "Desa" || call.date === "" ||
 			            (esReclamacio(getTag(call.reason)) && PartnerInfo.contract ===  -1)
 			    ),
                         }, m(Ripple))),
