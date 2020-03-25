@@ -616,7 +616,7 @@ var motiu = function() {
                 m("br"),
                 preguntarResolt(reclamacio),
                 m("br"),
-                (reclamacio.solved && m("") || tipusATR(reclamacio)),
+                (!reclamacio.solved && m("") || tipusATR(reclamacio)),
                 m("br"),
             ],
             footerButtons: buttons(reclamacio),
