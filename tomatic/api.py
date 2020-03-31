@@ -21,6 +21,7 @@ from consolemsg import error, step, warn
 from .callinfo import CallInfo
 from . import schedulestorage
 from .pbxmockup import PbxMockup
+from .claims import Claims
 
 try:
     import dbconfig
@@ -739,5 +740,44 @@ def updateMyLog(ext):
     )
     return yamlfy(info=result)
 
+
+@app.route('/api/updateClaims', methods=['GET'])
+def updateClaims():
+    message = 'ok'
+
+    o = erppeek.Client(**dbconfig.erppeek)
+    claims = Claims(o)
+    erp_claims = claims.get_claims()
+
+    f = open(CONFIG.claims_file, "w+")
+    for claim in erp_claims:
+        f.write(claim)
+        f.write('\n')
+    f.close()
+
+    result = ns(
+        message=message
+    )
+    return yamlfy(info=result)
+
+
+@app.route('/api/getClaims', methods=['GET'])
+def getClaims():
+    message = 'ok'
+    claims = []
+    try:
+        f = open(CONFIG.claims_file, "r")
+        for line in f:
+            claims.append(line.strip())
+        f.close()
+    except IOError:
+        message = "error"
+        error("File of claims does not exists")
+
+    result = ns(
+        message=message,
+        claims=claims
+    )
+    return yamlfy(info=result)
 
 # vim: ts=4 sw=4 et
