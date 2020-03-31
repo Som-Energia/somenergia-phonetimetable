@@ -9,6 +9,7 @@ from flask import (
     )
 from datetime import datetime, timedelta
 from threading import Semaphore, Thread
+import os.path
 import urllib.parse
 import decorator
 import erppeek
@@ -779,5 +780,39 @@ def getClaims():
         claims=claims
     )
     return yamlfy(info=result)
+
+
+@app.route('/api/atrCase', methods=['POST'])
+def postAtrCase():
+
+    atc_info = ns.loads(request.data)
+
+    if not os.path.exists('atc_cases'):
+        os.makedirs('atc_cases')
+
+    today = datetime.today()
+    file_name = "atc_cases/{}{}{}.yaml".format(
+        today.day if today.day//10 != 0 else "0{}".format(today.day),
+        today.month if today.month//10 != 0 else "0{}".format(today.month),
+        today.year
+    )
+    if not os.path.isfile(file_name):
+        f = open(file_name, "w+")
+        f.close()
+        atc_cases = ns()
+    else:
+        atc_cases = ns.load(file_name)
+
+    if atc_info.person not in atc_cases:
+        atc_cases[atc_info.person] = {}
+    date = atc_info.date
+    del atc_info.date
+    atc_cases[atc_info.person][date] = atc_info
+
+    atc_cases.dump(file_name)
+
+    return yamlfy(info=ns(
+        message="ok"
+    ))
 
 # vim: ts=4 sw=4 et
