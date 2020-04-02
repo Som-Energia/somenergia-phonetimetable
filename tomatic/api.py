@@ -704,14 +704,8 @@ def getMyLog(ext):
             message = 'not_registers_yet'
             error("{} does not appear in the register.", ext)
     except IOError:
-        f = open(CONFIG.my_calls_log, "w+")
-        f.write("nom:\r\n")
-        f.write("- data: DD-MM-YYYY HH:MM:SS\r\n")
-        f.write("  telefon: \'Num de Telefon\' \r\n")
-        f.write("  partner: NumPartner\r\n")
-        f.write("  contracte: \'Num de Contracte\' \r\n")
-        f.write("  motius: \'[ETIQUETA] Motiu1, [ETIQUETA] Motiu2\' \r\n")
-        f.close()
+        message = 'not_register_yet'
+        error("There are not calls in the register yet.")
     result = ns(
         info=mylog,
         message=message,
@@ -722,9 +716,24 @@ def getMyLog(ext):
 @app.route('/api/updatelog/<ext>', methods=['POST'])
 def updateMyLog(ext):
     msg = 'ok'
-    try:
+
+    if not os.path.exists('atc_cases'):
+        os.makedirs('atc_cases')
+
+    if not os.path.isfile(CONFIG.my_calls_log):
+        error("[U] Opening file {} but it doesn't exists", CONFIG.my_calls_log)
+        step("Creating file...")
+
+        f = open(CONFIG.my_calls_log, "w+")
+        f.close()
+        logs = ns()
+    else:
         logs = ns.load(CONFIG.my_calls_log)
+
+    try:
         info = ns.loads(request.data)
+        if ext not in logs:
+            logs[ext] = [info]
         for call in logs[ext]:
             if call.data == info.data:
                 i = logs[ext].index(call)
@@ -735,7 +744,7 @@ def updateMyLog(ext):
         say_logcalls_has_changed(ext)
     except ValueError:
         msg = 'error_update_log'
-        error("[U] Opening file {} but it doesn't exists", CONFIG.my_calls_log)
+        error("[U] Opening file {}: unexpected", CONFIG.my_calls_log)
     result = ns(
         message=msg
     )
@@ -787,9 +796,6 @@ def postAtrCase():
 
     atc_info = ns.loads(request.data)
 
-    if not os.path.exists('atc_cases'):
-        os.makedirs('atc_cases')
-
     today = datetime.today()
     file_name = "atc_cases/{}{}{}.yaml".format(
         today.day if today.day//10 != 0 else "0{}".format(today.day),
@@ -804,10 +810,9 @@ def postAtrCase():
         atc_cases = ns.load(file_name)
 
     if atc_info.person not in atc_cases:
-        atc_cases[atc_info.person] = {}
-    date = atc_info.date
-    del atc_info.date
-    atc_cases[atc_info.person][date] = atc_info
+        atc_cases[atc_info.person] = []
+
+    atc_cases[atc_info.person].append(atc_info)
 
     atc_cases.dump(file_name)
 
