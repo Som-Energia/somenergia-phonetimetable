@@ -2,8 +2,7 @@
 
 import unittest
 import contextlib
-# from erppeek_wst import ClientWST
-from erppeek import Client
+from erppeek_wst import ClientWST
 from .claims import Claims
 try:
     import dbconfig
@@ -27,16 +26,13 @@ def discarded_transaction(Client):
 )
 class Claims_Test(unittest.TestCase):
 
-    from somutils.testutils import assertNsEqual
-
     @classmethod
     def setUpClass(cls):
         if not dbconfig:
             return
         if not dbconfig.erppeek:
             return
-        # cls.Client = ClientWST(**dbconfig.erppeek)
-        cls.Client = Client(**dbconfig.erppeek)
+        cls.Client = ClientWST(**dbconfig.erppeek)
         cls.data_atc = dbconfig.data_atc
 
     def test_getAllClaims(self):

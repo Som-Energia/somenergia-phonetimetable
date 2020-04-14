@@ -12,27 +12,30 @@ class Claims(object):
         self.assign_user = config.assign_user
 
     def get_claims(self):
-        reclamacio_obj = self.Client.GiscedataSubtipusReclamacio
-        reclamacions = []
-        all_reclamacio_ids = reclamacio_obj.search()
+        claims_model = self.Client.GiscedataSubtipusReclamacio
+        claims = []
+        all_claim_ids = claims_model.search()
 
-        for reclamacio_id in all_reclamacio_ids:
-            start_time = time.time()
-            reclamacio = reclamacio_obj.browse(reclamacio_id)
-            print("--- %s seconds ---" % (time.time() - start_time))
+        for claim_id in all_claim_ids:
+            claim = claims_model.read(
+                claim_id,
+                ['default_section', 'name', 'desc']
+            )
+            claim_section = claim.get("default_section")
 
-            recl_section = reclamacio.default_section
-            seccio = recl_section.name if recl_section else self.assign_user
+            if claim_section:
+                section = claim_section[1].split("/")[-1].strip()
+            else:
+                section = self.assign_user
 
             message = u"[{}] {} - {}".format(
-                seccio,
-                reclamacio.name,
-                reclamacio.desc
+                section,
+                claim.get("name"),
+                claim.get("desc")
             )
+            claims.append(message)
 
-            reclamacions.append(message)
-
-        return reclamacions
+        return claims
 
     def create_atc_case(self, data_crm, data_atc):
         crm_obj = self.Client.CrmCase
