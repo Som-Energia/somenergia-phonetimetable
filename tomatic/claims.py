@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 import re
 from yamlns import namespace as ns
-from consolemsg import error
+from consolemsg import error, warn
 
 PHONE = 2
 COMERCIALIZADORA = '06'
@@ -27,13 +27,23 @@ def cupsId(Client, cups):
     return cups_model.browse([('name', '=', cups)])[0].id
 
 
-def userId(Client, person):
+def userId(Client, emails, person):
+    email = emails[person]
+    partner_address_model = Client.ResPartnerAddress
+    address_id = partner_address_model.read(
+        [('email', '=', email)],
+        ['id']
+    )
     users_model = Client.ResUsers
     try:
-        user_id = users_model.browse([('login', '=', person)])[0].id
+        user_id = users_model.read(
+            [('address_id', '=', address_id)],
+            ['login']
+        )[0].get("id")
         return user_id
     except IndexError as e:
-        error("User {} not found: {}", person, e)
+        warn("user '{}' not found, {}. Using default.", person, e)
+        return None
 
 
 def resultat(Client, procedente, improcedente):
@@ -56,6 +66,7 @@ class Claims(object):
         config = ns.load('config.yaml')
 
         self.assign_user = config.assign_user
+        self.emails = config.emails
 
     def get_claims(self):
         claims_model = self.Client.GiscedataSubtipusReclamacio
@@ -119,6 +130,11 @@ class Claims(object):
             'state': 'done' if case.solved else 'open'
         }
         # TODO: 'user_id': userId(self.Client, case.person)
+        user_id = userId(self.Client, self.emails, case.person)
+
+        if user_id:
+            data_crm['user_id'] = user_id
+
         crm_obj = self.Client.CrmCase
         crm_id = crm_obj.create(data_crm).id
 
