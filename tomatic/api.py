@@ -798,9 +798,9 @@ def postAtrCase():
 
     today = datetime.today()
     file_name = "atc_cases/{}{}{}.yaml".format(
-        today.day if today.day//10 != 0 else "0{}".format(today.day),
+        today.year,
         today.month if today.month//10 != 0 else "0{}".format(today.month),
-        today.year
+        today.day if today.day//10 != 0 else "0{}".format(today.day),
     )
     if not os.path.isfile(file_name):
         f = open(file_name, "w+")

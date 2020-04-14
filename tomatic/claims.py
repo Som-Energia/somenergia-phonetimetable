@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 from yamlns import namespace as ns
+import time
 
 
 class Claims(object):
@@ -12,12 +13,14 @@ class Claims(object):
 
     def get_claims(self):
         reclamacio_obj = self.Client.GiscedataSubtipusReclamacio
-
         reclamacions = []
         all_reclamacio_ids = reclamacio_obj.search()
 
         for reclamacio_id in all_reclamacio_ids:
-            reclamacio = reclamacio_obj.get(reclamacio_id)
+            start_time = time.time()
+            reclamacio = reclamacio_obj.browse(reclamacio_id)
+            print("--- %s seconds ---" % (time.time() - start_time))
+
             recl_section = reclamacio.default_section
             seccio = recl_section.name if recl_section else self.assign_user
 
