@@ -44,6 +44,11 @@ def resultat(Client, procedente, improcedente):
     return '03'
 
 
+def sectionName(Client, section_id):
+    claims_model = Client.GiscedataSubtipusReclamacio
+    return claims_model.read(section_id, ['desc']).get('desc')
+
+
 class Claims(object):
 
     def __init__(self, Client):
@@ -100,13 +105,12 @@ class Claims(object):
             ...
         )
         '''
-
         partner_id = partnerId(self.Client, case.partner)
         partner_address = partnerAddress(self.Client, partner_id)
-
+        section_id = int(re.search('\d+', case.reason).group())
         data_crm = {
-            'section_id': int(re.search('\d+', case.reason).group()),
-            'name': case.reason.split("-")[1].strip(),
+            'section_id': section_id,
+            'name': sectionName(self.Client, section_id),
             'description': case.observations,
             'canal_id': PHONE,
             'polissa_id': contractId(self.Client, case.contract),
@@ -122,12 +126,11 @@ class Claims(object):
             'provincia': partner_address.get('state_id')[0],
             'total_cups': 1,
             'cups_id': cupsId(self.Client, case.cups),
-            'subtipus_id': int(re.search('\d+', case.reason).group()),
+            'subtipus_id': section_id,
             'reclamante': COMERCIALIZADORA,
             'resultat': resultat(self.Client, case.procedente, case.improcedente),
         }
         data_atc['crm_id'] = crm_id
-
         atc_obj = self.Client.GiscedataAtc
         case = atc_obj.create(data_atc)
 
