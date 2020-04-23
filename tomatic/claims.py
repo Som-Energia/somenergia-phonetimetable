@@ -6,35 +6,38 @@ from consolemsg import error, warn
 PHONE = 2
 COMERCIALIZADORA = '06'
 
-def partnerId(Client, partner):
-    partner_model = Client.ResPartner
+
+def partnerId(erp, partner):
+    partner_model = erp.ResPartner
     return partner_model.browse([('ref', '=', partner)])[0].id
 
-def partnerAddress(Client, partner_id):
-    partner_address_model = Client.ResPartnerAddress
+
+def partnerAddress(erp, partner_id):
+    partner_address_model = erp.ResPartnerAddress
     return partner_address_model.read(
         [('partner_id', '=', partner_id)],
         ['id', 'state_id']
     )[0]
 
-def contractId(Client, contract):
-    contract_model = Client.GiscedataPolissa
+
+def contractId(erp, contract):
+    contract_model = erp.GiscedataPolissa
     return contract_model.browse([("name", "=", contract)])[0].id
 
 
-def cupsId(Client, cups):
-    cups_model = Client.GiscedataCupsPs
+def cupsId(erp, cups):
+    cups_model = erp.GiscedataCupsPs
     return cups_model.browse([('name', '=', cups)])[0].id
 
 
-def userId(Client, emails, person):
+def userId(erp, emails, person):
     email = emails[person]
-    partner_address_model = Client.ResPartnerAddress
+    partner_address_model = erp.ResPartnerAddress
     address_id = partner_address_model.read(
         [('email', '=', email)],
         ['id']
     )
-    users_model = Client.ResUsers
+    users_model = erp.ResUsers
     try:
         user_id = users_model.read(
             [('address_id', '=', address_id)],
@@ -46,7 +49,7 @@ def userId(Client, emails, person):
         return None
 
 
-def resultat(Client, procedente, improcedente):
+def resultat(erp, procedente, improcedente):
     if procedente:
         return '01'
     if improcedente:
@@ -54,22 +57,22 @@ def resultat(Client, procedente, improcedente):
     return '03'
 
 
-def sectionName(Client, section_id):
-    claims_model = Client.GiscedataSubtipusReclamacio
+def sectionName(erp, section_id):
+    claims_model = erp.GiscedataSubtipusReclamacio
     return claims_model.read(section_id, ['desc']).get('desc')
 
 
 class Claims(object):
 
-    def __init__(self, Client):
-        self.Client = Client
+    def __init__(self, erp):
+        self.erp = erp
         config = ns.load('config.yaml')
 
         self.assign_user = config.assign_user
         self.emails = config.emails
 
     def get_claims(self):
-        claims_model = self.Client.GiscedataSubtipusReclamacio
+        claims_model = self.erp.GiscedataSubtipusReclamacio
         claims = []
         all_claim_ids = claims_model.search()
 
@@ -94,7 +97,6 @@ class Claims(object):
 
         return claims
 
-
     def create_atc_case(self, case):
         '''
         Expected case:
@@ -116,38 +118,42 @@ class Claims(object):
             ...
         )
         '''
-        partner_id = partnerId(self.Client, case.partner)
-        partner_address = partnerAddress(self.Client, partner_id)
+        partner_id = partnerId(self.erp, case.partner)
+        partner_address = partnerAddress(self.erp, partner_id)
         section_id = int(re.search('\d+', case.reason).group())
         data_crm = {
             'section_id': section_id,
-            'name': sectionName(self.Client, section_id),
+            'name': sectionName(self.erp, section_id),
             'description': case.observations,
             'canal_id': PHONE,
-            'polissa_id': contractId(self.Client, case.contract),
+            'polissa_id': contractId(self.erp, case.contract),
             'partner_id': partner_id,
             'partner_address_id': partner_address.get('id'),
             'state': 'done' if case.solved else 'open'
         }
-        # TODO: 'user_id': userId(self.Client, case.person)
-        user_id = userId(self.Client, self.emails, case.person)
+        # TODO: 'user_id': userId(self.erp, case.person)
+        user_id = userId(self.erp, self.emails, case.person)
 
         if user_id:
             data_crm['user_id'] = user_id
 
-        crm_obj = self.Client.CrmCase
+        crm_obj = self.erp.CrmCase
         crm_id = crm_obj.create(data_crm).id
 
         data_atc = {
             'provincia': partner_address.get('state_id')[0],
             'total_cups': 1,
-            'cups_id': cupsId(self.Client, case.cups),
+            'cups_id': cupsId(self.erp, case.cups),
             'subtipus_id': section_id,
             'reclamante': COMERCIALIZADORA,
-            'resultat': resultat(self.Client, case.procedente, case.improcedente),
+            'resultat': resultat(
+                self.erp,
+                case.procedente,
+                case.improcedente
+            ),
         }
         data_atc['crm_id'] = crm_id
-        atc_obj = self.Client.GiscedataAtc
+        atc_obj = self.erp.GiscedataAtc
         case = atc_obj.create(data_atc)
 
         return case.id
