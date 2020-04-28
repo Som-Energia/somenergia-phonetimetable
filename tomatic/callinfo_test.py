@@ -355,6 +355,7 @@ class CallInfo_Test(unittest.TestCase):
                 titular_name: '...iol'
                 energetica: False
                 generation: True
+                iban: '...029'
               -
                 end_date: ''
                 cups: ...H0F
@@ -376,6 +377,7 @@ class CallInfo_Test(unittest.TestCase):
                 titular_name: '...xes'
                 energetica: False
                 generation: True
+                iban: '...200'
               -
                 end_date: ''
                 cups: ...A0F
@@ -397,6 +399,7 @@ class CallInfo_Test(unittest.TestCase):
                 titular_name: '...ero'
                 energetica: False
                 generation: False
+                iban: '...835'
               -
                 end_date: ''
                 cups: ...V0F
@@ -418,6 +421,7 @@ class CallInfo_Test(unittest.TestCase):
                 titular_name: '...nia'
                 energetica: False
                 generation: False
+                iban: '...768'
             """)
 
     def test_contractInfo_whenAskNone(self):
@@ -453,6 +457,7 @@ class CallInfo_Test(unittest.TestCase):
               titular_name: '...iol'
               energetica: False
               generation: True
+              iban: '...029'
             """)
 
     def test_contractInfo_whenNoSoci(self):
@@ -481,6 +486,7 @@ class CallInfo_Test(unittest.TestCase):
               titular_name: '...ger'
               energetica: False
               generation: False
+              iban: '...445'
             """)
 
     def test_contractInfo_whenEnergetica(self):
@@ -509,6 +515,7 @@ class CallInfo_Test(unittest.TestCase):
               titular_name: '...tín'
               energetica: True
               generation: False
+              iban: '...113'
             """)
 
     def test_contractInfo_whenAskOne_withR1(self):
@@ -537,6 +544,7 @@ class CallInfo_Test(unittest.TestCase):
               titular_name: '...cís'
               energetica: False
               generation: False
+              iban: '...195'
             """)
 
     def test_contractInfo_whenAskOne_withB1(self):
@@ -565,6 +573,7 @@ class CallInfo_Test(unittest.TestCase):
               titular_name: '...Mar'
               energetica: False
               generation: False
+              iban: '...933'
             """)
 
     def test_contractInfo_whenAskOne_titular_not_partner(self):
@@ -593,6 +602,7 @@ class CallInfo_Test(unittest.TestCase):
               titular_name: '...rat'
               energetica: False
               generation: False
+              iban: '...167'
             """)
 
     def test_contractInfo_whenAskMore(self):
@@ -621,6 +631,7 @@ class CallInfo_Test(unittest.TestCase):
               titular_name: '...iol'
               energetica: False
               generation: True
+              iban: '...029'
             -
               start_date: '2012-03-29'
               end_date: ''
@@ -642,6 +653,7 @@ class CallInfo_Test(unittest.TestCase):
               titular_name: '...nna'
               energetica: False
               generation: True
+              iban: '...421'
             """)
 
     def test_getPartnerRelatedContracts_ordered(self):
