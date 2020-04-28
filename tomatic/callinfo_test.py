@@ -605,6 +605,35 @@ class CallInfo_Test(unittest.TestCase):
               iban: '...167'
             """)
 
+    def test_contractInfo_whenNoBank(self):
+        info = CallInfo(self.O, anonymize=True)
+        contractsData = info.contractInfo([82920], 56964)
+        self.assertNsEqual(contractsData, """\
+            contracts:
+            -
+              end_date: ''
+              cups: ...V0F
+              start_date: '2016-11-13'
+              state: activa
+              power: 10.0
+              fare: 2.0A
+              number: '0041864'
+              last_invoiced: '2020-01-08'
+              suspended_invoicing: false
+              pending_state: 'Correct'
+              has_open_r1s: False
+              has_open_bs: False
+              is_titular: True
+              is_partner: True
+              is_notifier: True
+              is_payer: True
+              cups_adress: '...eu)'
+              titular_name: '...deu'
+              energetica: False
+              generation: False
+              iban: ''
+            """)
+
     def test_contractInfo_whenAskMore(self):
         info = CallInfo(self.O, anonymize=True)
         contractsData = info.contractInfo([155, 250], 410)

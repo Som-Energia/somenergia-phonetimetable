@@ -215,7 +215,7 @@ class CallInfo(object):
                         titular_name=self.anonymize(contract['titular'][1]),
                         energetica=contract['soci'] and contract['soci'][0] == 38039,
                         generation=hasGeneration(contract['id']),
-                        iban=self.anonymize(contract['bank'][1])
+                        iban=self.anonymize(contract['bank'][1]) if contract['bank'] else '',
                     )
                 )
         return ret
