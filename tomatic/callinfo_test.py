@@ -12,7 +12,7 @@ try:
 except ImportError:
     dbconfig = None
 
-@unittest.skip("PLEASE DEFRAGILIZE ME!!!!")
+
 @unittest.skipIf(os.environ.get("TRAVIS"),
     "Database not available in Travis")
 @unittest.skipIf(not dbconfig or not dbconfig.erppeek,
@@ -25,7 +25,7 @@ class CallInfo_Test(unittest.TestCase):
         self.maxDiff = None
         self.b2bdatapath = "testdata"
 
-    def ns(self,content):
+    def ns(self, content):
         return ns.loads(content)
 
     @classmethod
@@ -58,7 +58,7 @@ class CallInfo_Test(unittest.TestCase):
     def test_addressByPhone_whenMatchesMoreThanOneMobile(self):
         info = CallInfo(self.O)
         ids = info.addressByPhone('630079522')
-        self.assertEqual(ids, [33,42])
+        self.assertEqual(ids, [33, 42])
 
     def test_addressByEmail_whenMatchesNone(self):
         info = CallInfo(self.O)
@@ -68,17 +68,17 @@ class CallInfo_Test(unittest.TestCase):
     def test_addressByEmail_whenMatchesOne(self):
         info = CallInfo(self.O)
         ids = info.addressByEmail('testing@somenergia.coop')
-        self.assertEqual(ids, [76455])
+        self.assertEqual(ids, [81065])
 
     def test_addressByEmail_moreThanOne(self):
         info = CallInfo(self.O)
         ids = info.addressByEmail('testing2@somenergia.coop')
-        self.assertEqual(ids, [40568, 49661])
+        self.assertEqual(ids, [42750, 52543])
 
     def test_addressByEmail_partial(self):
         info = CallInfo(self.O)
         ids = info.addressByEmail('testing%')
-        self.assertEqual(ids, [40568, 49661, 76455])
+        self.assertEqual(ids, [42750, 52543, 81065])
 
     def test_partnerBySoci_whenMatchesNone(self):
         info = CallInfo(self.O)
@@ -93,7 +93,10 @@ class CallInfo_Test(unittest.TestCase):
     def test_partnerBySoci_partial(self):
         info = CallInfo(self.O)
         ids = info.partnerBySoci('S00019')
-        self.assertEqual(ids, [215, 212, 209, 210, 217, 208, 216, 218, 214, 219])
+        self.assertEqual(
+            ids,
+            [215, 212, 209, 210, 217, 208, 216, 218, 214, 219]
+        )
 
     def test_partnerByDni_whenMatchesNone(self):
         info = CallInfo(self.O)
@@ -108,7 +111,7 @@ class CallInfo_Test(unittest.TestCase):
     def test_partnerByDni_partial(self):
         info = CallInfo(self.O)
         ids = info.partnerByDni(dbconfig.personaldata["nif"][:-3])
-        self.assertEqual(ids, [72676, 217])
+        self.assertEqual(ids, [133888, 72676, 217])
 
     def test_partnerByName_whenMatchesNone(self):
         info = CallInfo(self.O)
@@ -117,7 +120,12 @@ class CallInfo_Test(unittest.TestCase):
 
     def test_partnerByName_whenMatchesOne(self):
         info = CallInfo(self.O)
-        ids = info.partnerByName(dbconfig.personaldata["surname"]+", "+dbconfig.personaldata["name"])
+        complete_name = dbconfig.personaldata["surname"]
+        complete_name += ", "
+        complete_name += dbconfig.personaldata["name"]
+        ids = info.partnerByName(
+            complete_name
+        )
         self.assertEqual(ids, [217])
 
     def test_partnerByName_partial(self):
@@ -128,7 +136,7 @@ class CallInfo_Test(unittest.TestCase):
     def test_partnerByAddressId_whenMatchesNone(self):
         info = CallInfo(self.O)
         partner_ids = info.partnerByAddressId([999999999])
-        self.assertEqual(partner_ids,[])
+        self.assertEqual(partner_ids, [])
 
     def test_partnerByAddressId_whenMatchesOnePartner(self):
         info = CallInfo(self.O)
@@ -163,16 +171,16 @@ class CallInfo_Test(unittest.TestCase):
     def test_getPartnerRelatedContracts_when_soci5(self):
         info = CallInfo(self.O)
         contracts_ids = info.getPartnerRelatedContracts(410)
-        self.assertEqual(contracts_ids, [155,56427,58367,69104,140502])
+        self.assertEqual(contracts_ids, [155, 56427, 58367, 69104])
 
     def test_getPartnerRelatedContracts_when_convidat(self):
         info = CallInfo(self.O)
-        contracts_ids = info.getPartnerRelatedContracts(93257)
-        self.assertEqual(contracts_ids, [140502])
+        contracts_ids = info.getPartnerRelatedContracts(134916)
+        self.assertEqual(contracts_ids, [207413])
 
     def test_partnerInfo_whenMatchesOne(self):
         info = CallInfo(self.O, anonymize=True)
-        data = self.O.ResPartner.read([410],[
+        data = self.O.ResPartner.read([410], [
             'city',
             'www_email',
             'www_provincia',
@@ -256,7 +264,7 @@ class CallInfo_Test(unittest.TestCase):
 
     def test_partnerInfo_whenNoProvincia(self):
         info = CallInfo(self.O, anonymize=True)
-        data = self.O.ResPartner.read([49781],[
+        data = self.O.ResPartner.read([49781], [
             'city',
             'www_email',
             'www_provincia',
@@ -284,7 +292,7 @@ class CallInfo_Test(unittest.TestCase):
 
     def test_partnerInfo_whenNoMunicipi(self):
         info = CallInfo(self.O, anonymize=True)
-        data = self.O.ResPartner.read([3293],[
+        data = self.O.ResPartner.read([3293], [
             'city',
             'www_email',
             'www_provincia',
@@ -334,7 +342,7 @@ class CallInfo_Test(unittest.TestCase):
                 power: 3.45
                 fare: 2.0DHA
                 number: '0000155'
-                last_invoiced: '2019-08-18'
+                last_invoiced: '2020-01-20'
                 suspended_invoicing: false
                 pending_state: 'Correct'
                 has_open_r1s: False
@@ -355,7 +363,7 @@ class CallInfo_Test(unittest.TestCase):
                 power: 1.15
                 fare: 2.0A
                 number: '0028042'
-                last_invoiced: '2019-08-18'
+                last_invoiced: '2020-01-20'
                 suspended_invoicing: false
                 pending_state: 'Correcte'
                 has_open_r1s: False
@@ -376,7 +384,7 @@ class CallInfo_Test(unittest.TestCase):
                 power: 4.6
                 fare: 2.0DHA
                 number: '0029062'
-                last_invoiced: '2019-08-19'
+                last_invoiced: '2020-01-19'
                 suspended_invoicing: false
                 pending_state: 'Correct'
                 has_open_r1s: false
@@ -397,7 +405,7 @@ class CallInfo_Test(unittest.TestCase):
                 power: 3.45
                 fare: 2.0DHA
                 number: '0034613'
-                last_invoiced: '2019-08-19'
+                last_invoiced: '2020-01-19'
                 suspended_invoicing: false
                 pending_state: 'Correct'
                 has_open_r1s: false
@@ -414,14 +422,14 @@ class CallInfo_Test(unittest.TestCase):
 
     def test_contractInfo_whenAskNone(self):
         info = CallInfo(self.O, anonymize=True)
-        contractsData = info.contractInfo([0],1234)
+        contractsData = info.contractInfo([0], 1234)
         self.assertNsEqual(contractsData, """\
             contracts: []
             """)
 
     def test_contractInfo_whenAskOne(self):
         info = CallInfo(self.O, anonymize=True)
-        contractsData = info.contractInfo([155],410)
+        contractsData = info.contractInfo([155], 410)
         self.assertNsEqual(contractsData, """\
             contracts:
             -
@@ -432,9 +440,9 @@ class CallInfo_Test(unittest.TestCase):
               power: 3.45
               fare: 2.0DHA
               number: '0000155'
-              last_invoiced: '2018-05-22'
+              last_invoiced: '2020-01-20'
               suspended_invoicing: false
-              pending_state: 'Correcte'
+              pending_state: 'Correct'
               has_open_r1s: False
               has_open_bs: False
               is_titular: True
@@ -449,7 +457,7 @@ class CallInfo_Test(unittest.TestCase):
 
     def test_contractInfo_whenNoSoci(self):
         info = CallInfo(self.O, anonymize=True)
-        contractsData = info.contractInfo([14817],13597)
+        contractsData = info.contractInfo([14817], 13597)
         self.assertNsEqual(contractsData, """\
             contracts:
             -
@@ -459,10 +467,10 @@ class CallInfo_Test(unittest.TestCase):
               state: activa
               power: 3.45
               fare: 2.0A
-              number: '08597'
-              last_invoiced: '2018-06-12'
+              number: '0008597'
+              last_invoiced: '2020-01-11'
               suspended_invoicing: false
-              pending_state: 'Correcte'
+              pending_state: 'Correct'
               has_open_r1s: False
               has_open_bs: False
               is_titular: True
@@ -475,10 +483,9 @@ class CallInfo_Test(unittest.TestCase):
               generation: False
             """)
 
-
     def test_contractInfo_whenEnergetica(self):
         info = CallInfo(self.O, anonymize=True)
-        contractsData = info.contractInfo([102631],69906)
+        contractsData = info.contractInfo([102631], 69906)
         self.assertNsEqual(contractsData, """\
             contracts:
             -
@@ -488,10 +495,10 @@ class CallInfo_Test(unittest.TestCase):
               state: activa
               power: 3.3
               fare: 2.0A
-              number: '51861'
-              last_invoiced: '2018-06-13'
-              suspended_invoicing: true
-              pending_state: 'Correcte'
+              number: '0051861'
+              last_invoiced: '2020-01-15'
+              suspended_invoicing: false
+              pending_state: 'Correct'
               has_open_r1s: False
               has_open_bs: False
               is_titular: True
@@ -506,64 +513,63 @@ class CallInfo_Test(unittest.TestCase):
 
     def test_contractInfo_whenAskOne_withR1(self):
         info = CallInfo(self.O, anonymize=True)
-        contractsData = info.contractInfo([406],1176)
+        contractsData = info.contractInfo([231889], 57407)
         self.assertNsEqual(contractsData, """\
             contracts:
             -
               end_date: ''
-              cups: ...H0F
-              start_date: '2012-02-25'
+              cups: ...K0F
+              start_date: '2019-07-30'
               state: activa
-              power: 2.3
+              power: 4.4
               fare: 2.0A
-              number: '00406'
-              last_invoiced: '2018-05-23'
-              suspended_invoicing: false
-              pending_state: 'Correcte'
+              number: '0123347'
+              last_invoiced: '2019-12-09'
+              suspended_invoicing: true
+              pending_state: 'Correct'
               has_open_r1s: True
               has_open_bs: False
               is_titular: True
               is_partner: True
-              is_notifier: False
-              is_payer: False
-              cups_adress: '...na)'
-              titular_name: '...iol'
-              titular_name: '...ene'
+              is_notifier: True
+              is_payer: True
+              cups_adress: '...La)'
+              titular_name: '...cís'
               energetica: False
               generation: False
             """)
 
     def test_contractInfo_whenAskOne_withB1(self):
         info = CallInfo(self.O, anonymize=True)
-        contractsData = info.contractInfo([21112],17465)
+        contractsData = info.contractInfo([227854], 146156)
         self.assertNsEqual(contractsData, """\
             contracts:
             -
               end_date: ''
-              cups: ...R0F
-              start_date: '2014-03-14'
+              cups: ...Z0F
+              start_date: '2019-05-23'
               state: activa
-              power: 9.2
-              fare: 2.0A
-              number: '11324'
-              last_invoiced: '2018-05-28'
+              power: 3.464
+              fare: 2.0DHA
+              number: '0119312'
+              last_invoiced: '2020-01-25'
               suspended_invoicing: false
-              pending_state: 'Correcte'
+              pending_state: 'Tall'
               has_open_r1s: False
               has_open_bs: True
               is_titular: True
-              is_partner: True
+              is_partner: False
               is_notifier: True
               is_payer: True
-              cups_adress: '...na)'
-              titular_name: '...ACT'
+              cups_adress: '...es)'
+              titular_name: '...Mar'
               energetica: False
               generation: False
             """)
 
     def test_contractInfo_whenAskOne_titular_not_partner(self):
         info = CallInfo(self.O, anonymize=True)
-        contractsData = info.contractInfo([4],2104)
+        contractsData = info.contractInfo([4], 2104)
         self.assertNsEqual(contractsData, """\
             contracts:
             -
@@ -571,13 +577,13 @@ class CallInfo_Test(unittest.TestCase):
               cups: ...X0F
               start_date: '2011-11-22'
               state: activa
-              power: 9.25
-              fare: 2.0DHA
-              number: '00004'
-              last_invoiced: '2018-07-10'
+              power: 3.4
+              fare: 2.0A
+              number: '0000004'
+              last_invoiced: '2020-01-14'
               suspended_invoicing: false
-              pending_state: 'Correcte'
-              has_open_r1s: True
+              pending_state: 'Correct'
+              has_open_r1s: False
               has_open_bs: False
               is_titular: True
               is_partner: False
@@ -591,7 +597,7 @@ class CallInfo_Test(unittest.TestCase):
 
     def test_contractInfo_whenAskMore(self):
         info = CallInfo(self.O, anonymize=True)
-        contractsData = info.contractInfo([155, 250],410)
+        contractsData = info.contractInfo([155, 250], 410)
         self.assertNsEqual(contractsData, """\
             contracts:
             -
@@ -602,9 +608,9 @@ class CallInfo_Test(unittest.TestCase):
               power: 3.45
               fare: 2.0DHA
               number: '0000155'
-              last_invoiced: '2018-05-22'
+              last_invoiced: '2020-01-20'
               suspended_invoicing: false
-              pending_state: 'Correcte'
+              pending_state: 'Correct'
               has_open_r1s: False
               has_open_bs: False
               is_titular: True
@@ -622,10 +628,10 @@ class CallInfo_Test(unittest.TestCase):
               state: activa
               power: 3.45
               fare: 2.0A
-              number: '0e00250'
-              last_invoiced: '2018-05-29'
+              number: '0000250'
+              last_invoiced: '2020-01-21'
               suspended_invoicing: false
-              pending_state: 'Correcte'
+              pending_state: 'Correct'
               has_open_r1s: False
               has_open_bs: False
               is_titular: False
@@ -641,9 +647,10 @@ class CallInfo_Test(unittest.TestCase):
     def test_getPartnerRelatedContracts_ordered(self):
         info = CallInfo(self.O, anonymize=True)
         contracts_ids = info.getPartnerRelatedContracts(17465)
-        self.assertEqual(contracts_ids,
-            [21112, 169183, 29925, 37069, 38127]
-            )
+        self.assertEqual(
+            contracts_ids,
+            [169183, 38127]
+        )
 
     def test_getByPhone_global(self):
         info = CallInfo(self.O)
@@ -672,7 +679,10 @@ class CallInfo_Test(unittest.TestCase):
 
     def test_getByName_global(self):
         info = CallInfo(self.O)
-        data = info.getByName(dbconfig.personaldata["surname"]+", "+dbconfig.personaldata["name"])
+        complete_name = dbconfig.personaldata["surname"]
+        complete_name += ", "
+        complete_name += dbconfig.personaldata["name"]
+        data = info.getByName(complete_name)
         self.assertB2BEqual(data.dump())
 
     def test_getByPartnersId_global(self):
@@ -691,6 +701,7 @@ class CallInfo_Test(unittest.TestCase):
         self.assertNsEqual(data, """\
             partners : Masses resultats
             """)
+
 
 unittest.TestCase.__str__ = unittest.TestCase.id
 
