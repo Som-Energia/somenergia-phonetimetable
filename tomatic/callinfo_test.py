@@ -345,8 +345,7 @@ class CallInfo_Test(unittest.TestCase):
                 last_invoiced: '2020-01-20'
                 suspended_invoicing: false
                 pending_state: 'Correct'
-                has_open_r1s: False
-                has_open_bs: False
+                open_cases: []
                 is_titular: True
                 is_partner: True
                 is_notifier: True
@@ -369,8 +368,7 @@ class CallInfo_Test(unittest.TestCase):
                 last_invoiced: '2020-01-20'
                 suspended_invoicing: false
                 pending_state: 'Correcte'
-                has_open_r1s: False
-                has_open_bs: False
+                open_cases: []
                 is_titular: False
                 is_partner: True
                 is_notifier: True
@@ -393,8 +391,7 @@ class CallInfo_Test(unittest.TestCase):
                 last_invoiced: '2020-01-19'
                 suspended_invoicing: false
                 pending_state: 'Correct'
-                has_open_r1s: false
-                has_open_bs: false
+                open_cases: []
                 is_titular: false
                 is_partner: true
                 is_notifier: false
@@ -417,8 +414,7 @@ class CallInfo_Test(unittest.TestCase):
                 last_invoiced: '2020-01-19'
                 suspended_invoicing: false
                 pending_state: 'Correct'
-                has_open_r1s: false
-                has_open_bs: false
+                open_cases: []
                 is_titular: false
                 is_partner: true
                 is_notifier: false
@@ -455,8 +451,7 @@ class CallInfo_Test(unittest.TestCase):
               last_invoiced: '2020-01-20'
               suspended_invoicing: false
               pending_state: 'Correct'
-              has_open_r1s: False
-              has_open_bs: False
+              open_cases: []
               is_titular: True
               is_partner: True
               is_notifier: True
@@ -486,8 +481,7 @@ class CallInfo_Test(unittest.TestCase):
               last_invoiced: '2020-01-11'
               suspended_invoicing: false
               pending_state: 'Correct'
-              has_open_r1s: False
-              has_open_bs: False
+              open_cases: []
               is_titular: True
               is_partner: False
               is_notifier: False
@@ -517,8 +511,7 @@ class CallInfo_Test(unittest.TestCase):
               last_invoiced: '2020-01-15'
               suspended_invoicing: false
               pending_state: 'Correct'
-              has_open_r1s: False
-              has_open_bs: False
+              open_cases: []
               is_titular: True
               is_partner: False
               is_notifier: True
@@ -548,8 +541,8 @@ class CallInfo_Test(unittest.TestCase):
               last_invoiced: '2019-12-09'
               suspended_invoicing: true
               pending_state: 'Correct'
-              has_open_r1s: True
-              has_open_bs: False
+              open_cases:
+                - R1
               is_titular: True
               is_partner: True
               is_notifier: True
@@ -579,8 +572,7 @@ class CallInfo_Test(unittest.TestCase):
               last_invoiced: '2020-01-25'
               suspended_invoicing: false
               pending_state: 'Tall'
-              has_open_r1s: False
-              has_open_bs: True
+              open_cases: [B1]
               is_titular: True
               is_partner: False
               is_notifier: True
@@ -610,8 +602,7 @@ class CallInfo_Test(unittest.TestCase):
               last_invoiced: '2020-01-14'
               suspended_invoicing: false
               pending_state: 'Correct'
-              has_open_r1s: False
-              has_open_bs: False
+              open_cases: []
               is_titular: True
               is_partner: False
               is_notifier: True
@@ -641,8 +632,7 @@ class CallInfo_Test(unittest.TestCase):
               last_invoiced: '2020-01-08'
               suspended_invoicing: false
               pending_state: 'Correct'
-              has_open_r1s: False
-              has_open_bs: False
+              open_cases: []
               is_titular: True
               is_partner: True
               is_notifier: True
@@ -672,8 +662,7 @@ class CallInfo_Test(unittest.TestCase):
               last_invoiced: False
               suspended_invoicing: false
               pending_state: False
-              has_open_r1s: False
-              has_open_bs: False
+              open_cases: []
               is_titular: True
               is_partner: True
               is_notifier: True
@@ -703,8 +692,7 @@ class CallInfo_Test(unittest.TestCase):
               last_invoiced: '2020-01-20'
               suspended_invoicing: false
               pending_state: 'Correct'
-              has_open_r1s: False
-              has_open_bs: False
+              open_cases: []
               is_titular: True
               is_partner: True
               is_notifier: True
@@ -727,8 +715,7 @@ class CallInfo_Test(unittest.TestCase):
               last_invoiced: '2020-01-21'
               suspended_invoicing: false
               pending_state: 'Correct'
-              has_open_r1s: False
-              has_open_bs: False
+              open_cases: []
               is_titular: False
               is_partner: False
               is_notifier: False

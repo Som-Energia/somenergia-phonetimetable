@@ -146,6 +146,13 @@ class CallInfo(object):
             ])
             return len(cases) > 0
 
+        def openCases(contract_id):
+            cases = self.O.GiscedataSwitching.browse([
+                ('cups_polissa_id', '=', contract_id),
+                ('state', '!=', 'done')
+            ])
+            return [case.proces_id.name for case in cases]
+
         def getPartnerId(address_id):
             partner_ids = self.O.ResPartnerAddress.read(
                 [address_id],
@@ -226,8 +233,7 @@ class CallInfo(object):
                         last_invoiced=contract['data_ultima_lectura'],
                         suspended_invoicing=contract['facturacio_suspesa'],
                         pending_state=contract['pending_state'],
-                        has_open_r1s=hasOpenATR(contract['id'], 'R1'),
-                        has_open_bs=hasOpenATR(contract['id'], 'B1'),
+                        open_cases=openCases(contract['id']),
                         is_titular=is_titular,
                         is_partner=is_partner,
                         is_notifier=is_notifier,
