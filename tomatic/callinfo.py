@@ -189,6 +189,7 @@ class CallInfo(object):
             'direccio_notificacio',
             'bank',
             'lot_facturacio',
+            'no_estimable'
         ])
         all_contracts_dict = {c['id']: c for c in all_contracts if c}
         for contract_id in contracts_ids:
@@ -237,6 +238,7 @@ class CallInfo(object):
                         generation=hasGeneration(contract['id']),
                         iban=iban,
                         lot_facturacio=lot_facturacio,
+                        no_estimable=contract['no_estimable']
                     )
                 )
         return ret
