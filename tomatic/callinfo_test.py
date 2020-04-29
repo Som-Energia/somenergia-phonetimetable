@@ -706,6 +706,36 @@ class CallInfo_Test(unittest.TestCase):
               no_estimable: True
             """)
 
+    def test_contractInfo_whenAskOne_withD1s(self):
+        info = CallInfo(self.O, anonymize=True)
+        contractsData = info.contractInfo([39518], 28971)
+        self.assertNsEqual(contractsData, """\
+            contracts:
+            -
+              end_date: ''
+              cups: ...Z0F
+              start_date: '2014-10-14'
+              state: activa
+              power: 4.5
+              fare: 2.0DHA
+              number: '0019379'
+              last_invoiced: '2019-12-15'
+              suspended_invoicing: false
+              pending_state: 'Correct'
+              open_cases: [D1, D1, D1, D1]
+              is_titular: true
+              is_partner: false
+              is_notifier: true
+              is_payer: true
+              cups_adress: '...da)'
+              titular_name: '... Mª'
+              energetica: False
+              generation: False
+              iban: '...920'
+              lot_facturacio: '02/2020'
+              no_estimable: True
+            """)
+
     def test_contractInfo_whenAskOne_titular_not_partner(self):
         info = CallInfo(self.O, anonymize=True)
         contractsData = info.contractInfo([4], 2104)
