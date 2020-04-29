@@ -645,6 +645,36 @@ class CallInfo_Test(unittest.TestCase):
               lot_facturacio: '02/2020'
             """)
 
+    def test_contractInfo_whenNoInvoicing(self):
+        info = CallInfo(self.O, anonymize=True)
+        contractsData = info.contractInfo([120937], 80903)
+        self.assertNsEqual(contractsData, """\
+            contracts:
+            -
+              end_date: ''
+              cups: ...K0F
+              start_date: False
+              state: esborrany
+              power: 3.3
+              fare: 2.0A
+              number: '0061206'
+              last_invoiced: False
+              suspended_invoicing: false
+              pending_state: False
+              has_open_r1s: False
+              has_open_bs: False
+              is_titular: True
+              is_partner: True
+              is_notifier: True
+              is_payer: True
+              cups_adress: '...na)'
+              titular_name: '...aúl'
+              energetica: False
+              generation: False
+              iban: '...087'
+              lot_facturacio: ''
+            """)
+
     def test_contractInfo_whenAskMore(self):
         info = CallInfo(self.O, anonymize=True)
         contractsData = info.contractInfo([155, 250], 410)

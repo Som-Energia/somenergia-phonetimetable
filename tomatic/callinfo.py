@@ -194,10 +194,29 @@ class CallInfo(object):
         for contract_id in contracts_ids:
             if contract_id in all_contracts_dict:
                 contract = all_contracts_dict[contract_id]
+                end_date = contract['data_baixa'] \
+                    if contract['data_baixa'] else ''
+                is_titular = contract['titular'] and \
+                    contract['titular'][0] == partner_id
+                is_partner = contract['soci'] and \
+                    contract['soci'][0] == partner_id
+                is_notifier = getPartnerId(
+                    contract['direccio_notificacio'][0]
+                ) == partner_id
+                is_payer = contract['pagador'] and \
+                    contract['pagador'][0] == partner_id
+                cups_adress = self.anonymize(
+                    getCUPSAdress(contract['cups'][0])
+                )
+                energetica = contract['soci'] and contract['soci'][0] == 38039
+                iban = self.anonymize(contract['bank'][1]) \
+                    if contract['bank'] else ''
+                lot_facturacio = contract['lot_facturacio'][1] \
+                    if contract['lot_facturacio'] else ''
                 ret.contracts.append(
                     ns(
                         start_date=contract['data_alta'],
-                        end_date=contract['data_baixa'] if contract['data_baixa'] else '',
+                        end_date=end_date,
                         power=contract['potencia'],
                         cups=self.anonymize(contract['cups'][1]),
                         fare=contract['tarifa'][1],
@@ -208,16 +227,16 @@ class CallInfo(object):
                         pending_state=contract['pending_state'],
                         has_open_r1s=hasOpenATR(contract['id'], 'R1'),
                         has_open_bs=hasOpenATR(contract['id'], 'B1'),
-                        is_titular=contract['titular'] and contract['titular'][0] == partner_id,
-                        is_partner=contract['soci'] and contract['soci'][0] == partner_id,
-                        is_notifier=getPartnerId(contract['direccio_notificacio'][0]) == partner_id,
-                        is_payer=contract['pagador'] and contract['pagador'][0] == partner_id,
-                        cups_adress=self.anonymize(getCUPSAdress(contract['cups'][0])),
+                        is_titular=is_titular,
+                        is_partner=is_partner,
+                        is_notifier=is_notifier,
+                        is_payer=is_payer,
+                        cups_adress=cups_adress,
                         titular_name=self.anonymize(contract['titular'][1]),
-                        energetica=contract['soci'] and contract['soci'][0] == 38039,
+                        energetica=energetica,
                         generation=hasGeneration(contract['id']),
-                        iban=self.anonymize(contract['bank'][1]) if contract['bank'] else '',
-                        lot_facturacio=contract['lot_facturacio'][1],
+                        iban=iban,
+                        lot_facturacio=lot_facturacio,
                     )
                 )
         return ret
