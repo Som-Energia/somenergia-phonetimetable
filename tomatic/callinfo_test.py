@@ -356,6 +356,7 @@ class CallInfo_Test(unittest.TestCase):
                 energetica: False
                 generation: True
                 iban: '...029'
+                lot_facturacio: '02/2020'
               -
                 end_date: ''
                 cups: ...H0F
@@ -378,6 +379,7 @@ class CallInfo_Test(unittest.TestCase):
                 energetica: False
                 generation: True
                 iban: '...200'
+                lot_facturacio: '02/2020'
               -
                 end_date: ''
                 cups: ...A0F
@@ -400,6 +402,7 @@ class CallInfo_Test(unittest.TestCase):
                 energetica: False
                 generation: False
                 iban: '...835'
+                lot_facturacio: '02/2020'
               -
                 end_date: ''
                 cups: ...V0F
@@ -422,6 +425,7 @@ class CallInfo_Test(unittest.TestCase):
                 energetica: False
                 generation: False
                 iban: '...768'
+                lot_facturacio: '02/2020'
             """)
 
     def test_contractInfo_whenAskNone(self):
@@ -458,6 +462,7 @@ class CallInfo_Test(unittest.TestCase):
               energetica: False
               generation: True
               iban: '...029'
+              lot_facturacio: '02/2020'
             """)
 
     def test_contractInfo_whenNoSoci(self):
@@ -487,6 +492,7 @@ class CallInfo_Test(unittest.TestCase):
               energetica: False
               generation: False
               iban: '...445'
+              lot_facturacio: '02/2020'
             """)
 
     def test_contractInfo_whenEnergetica(self):
@@ -516,6 +522,7 @@ class CallInfo_Test(unittest.TestCase):
               energetica: True
               generation: False
               iban: '...113'
+              lot_facturacio: '02/2020'
             """)
 
     def test_contractInfo_whenAskOne_withR1(self):
@@ -545,6 +552,7 @@ class CallInfo_Test(unittest.TestCase):
               energetica: False
               generation: False
               iban: '...195'
+              lot_facturacio: '02/2020'
             """)
 
     def test_contractInfo_whenAskOne_withB1(self):
@@ -574,6 +582,7 @@ class CallInfo_Test(unittest.TestCase):
               energetica: False
               generation: False
               iban: '...933'
+              lot_facturacio: '02/2020'
             """)
 
     def test_contractInfo_whenAskOne_titular_not_partner(self):
@@ -603,6 +612,7 @@ class CallInfo_Test(unittest.TestCase):
               energetica: False
               generation: False
               iban: '...167'
+              lot_facturacio: '02/2020'
             """)
 
     def test_contractInfo_whenNoBank(self):
@@ -632,6 +642,7 @@ class CallInfo_Test(unittest.TestCase):
               energetica: False
               generation: False
               iban: ''
+              lot_facturacio: '02/2020'
             """)
 
     def test_contractInfo_whenAskMore(self):
@@ -661,6 +672,7 @@ class CallInfo_Test(unittest.TestCase):
               energetica: False
               generation: True
               iban: '...029'
+              lot_facturacio: '02/2020'
             -
               start_date: '2012-03-29'
               end_date: ''
@@ -683,6 +695,7 @@ class CallInfo_Test(unittest.TestCase):
               energetica: False
               generation: True
               iban: '...421'
+              lot_facturacio: '02/2020'
             """)
 
     def test_getPartnerRelatedContracts_ordered(self):

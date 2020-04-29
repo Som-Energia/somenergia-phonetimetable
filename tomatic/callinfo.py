@@ -188,6 +188,7 @@ class CallInfo(object):
             'pagador',
             'direccio_notificacio',
             'bank',
+            'lot_facturacio',
         ])
         all_contracts_dict = {c['id']: c for c in all_contracts if c}
         for contract_id in contracts_ids:
@@ -216,6 +217,7 @@ class CallInfo(object):
                         energetica=contract['soci'] and contract['soci'][0] == 38039,
                         generation=hasGeneration(contract['id']),
                         iban=self.anonymize(contract['bank'][1]) if contract['bank'] else '',
+                        lot_facturacio=contract['lot_facturacio'][1],
                     )
                 )
         return ret
