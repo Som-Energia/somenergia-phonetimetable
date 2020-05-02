@@ -173,6 +173,39 @@ class CallInfo(object):
             ])
             return len(assignations) > 0
 
+        def getMeterReadings(meter_id):
+            return self.O.GiscedataLecturesComptador.read(
+                meter_id,
+                ['lectures', 'active', 'name']
+            )
+
+        def getReading(reading_id):
+            return self.O.GiscedataLecturesLectura.read(
+                reading_id,
+                ['name', 'lectura', 'origen_id', 'periode']
+            )
+
+        def meterReadings(meter_ids):
+            readings = []
+            for meter_id in meter_ids:
+                meter = getMeterReadings(meter_id)
+                if not meter['active']:
+                    break
+                if not meter['lectures']:
+                    break
+                limited_meter_readings_ids = meter['lectures'][:3]
+                for reading_id in limited_meter_readings_ids:
+                    reading = getReading(reading_id)
+                    data = {
+                        'comptador': self.anonymize(meter['name']),
+                        'data': reading['name'],
+                        'periode': reading['periode'][1],
+                        'lectura': self.anonymize(str(reading['lectura'])),
+                        'origen': reading['origen_id'][1],
+                    }
+                    readings.append(data)
+            return readings
+
         if not contracts_ids:
             return ns(polisses=[])
 
@@ -196,7 +229,8 @@ class CallInfo(object):
             'direccio_notificacio',
             'bank',
             'lot_facturacio',
-            'no_estimable'
+            'no_estimable',
+            'comptadors'
         ])
         all_contracts_dict = {c['id']: c for c in all_contracts if c}
         for contract_id in contracts_ids:
@@ -221,6 +255,7 @@ class CallInfo(object):
                     if contract['bank'] else ''
                 lot_facturacio = contract['lot_facturacio'][1] \
                     if contract['lot_facturacio'] else ''
+                lectures_comptadors = meterReadings(contract['comptadors'])
                 ret.contracts.append(
                     ns(
                         start_date=contract['data_alta'],
@@ -244,7 +279,9 @@ class CallInfo(object):
                         generation=hasGeneration(contract['id']),
                         iban=iban,
                         lot_facturacio=lot_facturacio,
-                        no_estimable=contract['no_estimable']
+                        no_estimable=contract['no_estimable'],
+                        lectures_comptadors=lectures_comptadors,
+
                     )
                 )
         return ret

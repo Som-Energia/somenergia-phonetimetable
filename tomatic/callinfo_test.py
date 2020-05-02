@@ -357,6 +357,22 @@ class CallInfo_Test(unittest.TestCase):
                 iban: '...029'
                 lot_facturacio: '02/2020'
                 no_estimable: True
+                lectures_comptadors:
+                - comptador: '...241'
+                  data: '2020-01-20'
+                  lectura: '...570'
+                  origen: Telegestió
+                  periode: 2.0DHA (P1)
+                - comptador: '...241'
+                  data: '2020-01-20'
+                  lectura: '...760'
+                  origen: Telegestió
+                  periode: 2.0DHA (P2)
+                - comptador: '...241'
+                  data: '2019-12-19'
+                  lectura: '...508'
+                  origen: Telegestió
+                  periode: 2.0DHA (P1)
               -
                 end_date: ''
                 cups: ...H0F
@@ -380,6 +396,22 @@ class CallInfo_Test(unittest.TestCase):
                 iban: '...200'
                 lot_facturacio: '02/2020'
                 no_estimable: True
+                lectures_comptadors:
+                - comptador: '...028'
+                  data: '2020-01-20'
+                  lectura: '...462'
+                  origen: Telegestió
+                  periode: 2.0A (P1)
+                - comptador: '...028'
+                  data: '2019-12-19'
+                  lectura: '...456'
+                  origen: Telegestió
+                  periode: 2.0A (P1)
+                - comptador: '...028'
+                  data: '2019-11-18'
+                  lectura: '...450'
+                  origen: Telegestió
+                  periode: 2.0A (P1)
               -
                 end_date: ''
                 cups: ...A0F
@@ -403,6 +435,22 @@ class CallInfo_Test(unittest.TestCase):
                 iban: '...835'
                 lot_facturacio: '02/2020'
                 no_estimable: True
+                lectures_comptadors:
+                - comptador: '...309'
+                  data: '2020-01-19'
+                  lectura: '...379'
+                  origen: Telegestió
+                  periode: 2.0DHA (P1)
+                - comptador: '...309'
+                  data: '2020-01-19'
+                  lectura: '...102'
+                  origen: Telegestió
+                  periode: 2.0DHA (P2)
+                - comptador: '...309'
+                  data: '2019-12-18'
+                  lectura: '...200'
+                  origen: Telegestió
+                  periode: 2.0DHA (P1)
               -
                 end_date: ''
                 cups: ...V0F
@@ -426,6 +474,22 @@ class CallInfo_Test(unittest.TestCase):
                 iban: '...768'
                 lot_facturacio: '02/2020'
                 no_estimable: True
+                lectures_comptadors:
+                - comptador: '...595'
+                  data: '2020-01-19'
+                  lectura: '...197'
+                  origen: Telegestió
+                  periode: 2.0DHA (P1)
+                - comptador: '...595'
+                  data: '2020-01-19'
+                  lectura: '...047'
+                  origen: Telegestió
+                  periode: 2.0DHA (P2)
+                - comptador: '...595'
+                  data: '2019-12-18'
+                  lectura: '...104'
+                  origen: Telegestió
+                  periode: 2.0DHA (P1)
             """)
 
     def test_contractInfo_whenAskNone(self):
@@ -463,6 +527,22 @@ class CallInfo_Test(unittest.TestCase):
               iban: '...029'
               lot_facturacio: '02/2020'
               no_estimable: True
+              lectures_comptadors:
+              - comptador: '...241'
+                data: '2020-01-20'
+                periode: '2.0DHA (P1)'
+                lectura: '...570'
+                origen: Telegestió
+              - comptador: '...241'
+                data: '2020-01-20'
+                periode: '2.0DHA (P2)'
+                lectura: '...760'
+                origen: Telegestió
+              - comptador: '...241'
+                data: '2019-12-19'
+                periode: '2.0DHA (P1)'
+                lectura: '...508'
+                origen: Telegestió
             """)
 
     def test_contractInfo_whenNoSoci(self):
@@ -493,6 +573,23 @@ class CallInfo_Test(unittest.TestCase):
               iban: '...445'
               lot_facturacio: '02/2020'
               no_estimable: True
+              lectures_comptadors:
+              - comptador: '...747'
+                data: '2020-01-11'
+                lectura: '...803'
+                origen: Telegestió
+                periode: 2.0A (P1)
+              - comptador: '...747'
+                data: '2019-12-11'
+                lectura: '...701'
+                origen: Telegestió
+                periode: 2.0A (P1)
+              - comptador: '...747'
+                data: '2019-11-10'
+                lectura: '...584'
+                origen: Telegestió
+                periode: 2.0A (P1)
+
             """)
 
     def test_contractInfo_whenEnergetica(self):
@@ -523,6 +620,22 @@ class CallInfo_Test(unittest.TestCase):
               iban: '...113'
               lot_facturacio: '02/2020'
               no_estimable: True
+              lectures_comptadors:
+              - comptador: '...002'
+                data: '2020-01-15'
+                lectura: '...446'
+                origen: Telegestió
+                periode: 2.0A (P1)
+              - comptador: '...002'
+                data: '2019-12-17'
+                lectura: '...412'
+                origen: Telegestió
+                periode: 2.0A (P1)
+              - comptador: '...002'
+                data: '2019-11-14'
+                lectura: '...373'
+                origen: Telemesura
+                periode: 2.0A (P1)
             """)
 
     def test_contractInfo_whenAskOne_withR1(self):
@@ -554,6 +667,22 @@ class CallInfo_Test(unittest.TestCase):
               iban: '...195'
               lot_facturacio: '02/2020'
               no_estimable: True
+              lectures_comptadors:
+              - comptador: '...881'
+                data: '2020-02-12'
+                lectura: '...508'
+                origen: Autolectura
+                periode: 2.0A (P1)
+              - comptador: '...881'
+                data: '2020-01-11'
+                lectura: '...265'
+                origen: Estimada amb l'històric
+                periode: 2.0A (P1)
+              - comptador: '...881'
+                data: '2019-12-09'
+                lectura: '...974'
+                origen: Estimada
+                periode: 2.0A (P1)
             """)
 
     def test_contractInfo_whenAskOne_withB1(self):
@@ -584,6 +713,22 @@ class CallInfo_Test(unittest.TestCase):
               iban: '...933'
               lot_facturacio: '02/2020'
               no_estimable: True
+              lectures_comptadors:
+              - comptador: '...144'
+                data: '2020-01-25'
+                lectura: '...868'
+                origen: Telegestió
+                periode: 2.0DHA (P1)
+              - comptador: '...144'
+                data: '2020-01-25'
+                lectura: '...672'
+                origen: Telegestió
+                periode: 2.0DHA (P2)
+              - comptador: '...144'
+                data: '2019-12-26'
+                lectura: '...474'
+                origen: Telegestió
+                periode: 2.0DHA (P1)
             """)
 
     def test_contractInfo_whenAskOne_withC1(self):
@@ -614,6 +759,7 @@ class CallInfo_Test(unittest.TestCase):
               iban: '...839'
               lot_facturacio: ''
               no_estimable: True
+              lectures_comptadors: []
             """)
 
     def test_contractInfo_whenAskOne_withC2(self):
@@ -644,6 +790,7 @@ class CallInfo_Test(unittest.TestCase):
               iban: '...163'
               lot_facturacio: ''
               no_estimable: True
+              lectures_comptadors: []
             """)
 
     def test_contractInfo_whenAskOne_withM1(self):
@@ -674,6 +821,7 @@ class CallInfo_Test(unittest.TestCase):
               iban: '...809'
               lot_facturacio: '02/2020'
               no_estimable: True
+              lectures_comptadors: []
             """)
 
     def test_contractInfo_whenAskOne_withA3(self):
@@ -704,6 +852,7 @@ class CallInfo_Test(unittest.TestCase):
               iban: '...958'
               lot_facturacio: ''
               no_estimable: True
+              lectures_comptadors: []
             """)
 
     def test_contractInfo_whenAskOne_withD1s(self):
@@ -734,6 +883,22 @@ class CallInfo_Test(unittest.TestCase):
               iban: '...920'
               lot_facturacio: '02/2020'
               no_estimable: True
+              lectures_comptadors:
+              - comptador: '...121'
+                data: '2020-01-14'
+                lectura: '...656'
+                origen: Telegestió
+                periode: 2.0DHA (P1)
+              - comptador: '...121'
+                data: '2020-01-14'
+                lectura: '...494'
+                origen: Telegestió
+                periode: 2.0DHA (P2)
+              - comptador: '...121'
+                data: '2019-12-15'
+                lectura: '...514'
+                origen: Telegestió
+                periode: 2.0DHA (P1)
             """)
 
     def test_contractInfo_whenAskOne_titular_not_partner(self):
@@ -764,6 +929,23 @@ class CallInfo_Test(unittest.TestCase):
               iban: '...167'
               lot_facturacio: '02/2020'
               no_estimable: True
+              lectures_comptadors:
+              - comptador: '...359'
+                data: '2020-01-14'
+                lectura: '...511'
+                origen: Telegestió
+                periode: 2.0A (P1)
+              - comptador: '...359'
+                data: '2019-12-15'
+                lectura: '...231'
+                origen: Telegestió
+                periode: 2.0A (P1)
+              - comptador: '...359'
+                data: '2019-11-13'
+                lectura: '...735'
+                origen: Telegestió
+                periode: 2.0A (P1)
+
             """)
 
     def test_contractInfo_whenNoBank(self):
@@ -794,6 +976,23 @@ class CallInfo_Test(unittest.TestCase):
               iban: ''
               lot_facturacio: '02/2020'
               no_estimable: True
+              lectures_comptadors:
+              - comptador: '...392'
+                data: '2020-01-08'
+                lectura: '...791'
+                origen: Telegestió
+                periode: 2.0A (P1)
+              - comptador: '...392'
+                data: '2019-12-07'
+                lectura: '...790'
+                origen: Telegestió
+                periode: 2.0A (P1)
+              - comptador: '...392'
+                data: '2019-11-07'
+                lectura: '...363'
+                origen: Telegestió
+                periode: 2.0A (P1)
+
             """)
 
     def test_contractInfo_whenNoInvoicing(self):
@@ -824,6 +1023,7 @@ class CallInfo_Test(unittest.TestCase):
               iban: '...087'
               lot_facturacio: ''
               no_estimable: False
+              lectures_comptadors: []
             """)
 
     def test_contractInfo_whenAskMore(self):
@@ -854,6 +1054,22 @@ class CallInfo_Test(unittest.TestCase):
               iban: '...029'
               lot_facturacio: '02/2020'
               no_estimable: True
+              lectures_comptadors:
+              - comptador: '...241'
+                data: '2020-01-20'
+                periode: '2.0DHA (P1)'
+                lectura: '...570'
+                origen: Telegestió
+              - comptador: '...241'
+                data: '2020-01-20'
+                periode: '2.0DHA (P2)'
+                lectura: '...760'
+                origen: Telegestió
+              - comptador: '...241'
+                data: '2019-12-19'
+                periode: '2.0DHA (P1)'
+                lectura: '...508'
+                origen: Telegestió
             -
               start_date: '2012-03-29'
               end_date: ''
@@ -877,6 +1093,22 @@ class CallInfo_Test(unittest.TestCase):
               iban: '...421'
               lot_facturacio: '02/2020'
               no_estimable: True
+              lectures_comptadors:
+              - comptador: '...638'
+                data: '2020-01-21'
+                periode: '2.0A (P1)'
+                lectura: '...957'
+                origen: Telegestió
+              - comptador: '...638'
+                data: '2019-12-22'
+                periode: '2.0A (P1)'
+                lectura: '...850'
+                origen: Telegestió
+              - comptador: '...638'
+                data: '2019-11-21'
+                periode: '2.0A (P1)'
+                lectura: '...752'
+                origen: Telegestió
             """)
 
     def test_getPartnerRelatedContracts_ordered(self):
