@@ -3,6 +3,9 @@
 from __future__ import print_function
 from yamlns import namespace as ns
 
+LIMIT_INVOICES = 1
+LIMIT_METER_READINGS = 1
+
 
 class CallInfo(object):
 
@@ -193,7 +196,10 @@ class CallInfo(object):
                     break
                 if not meter['lectures']:
                     break
-                limited_meter_readings_ids = meter['lectures'][:3]
+                meter_readings_ids = meter['lectures']
+                limited_meter_readings_ids = meter_readings_ids[
+                    :LIMIT_METER_READINGS
+                ]
                 for reading_id in limited_meter_readings_ids:
                     reading = getReading(reading_id)
                     data = {
@@ -205,6 +211,44 @@ class CallInfo(object):
                     }
                     readings.append(data)
             return readings
+
+        def getInvoice(invoice_id):
+            return self.O.GiscedataFacturacioFactura.read(
+                invoice_id, [
+                    'number',
+                    'data_inici',
+                    'data_final',
+                    'partner_id',
+                    'amount_total',
+                    'energia_kwh',
+                    'dies',
+                    'date_invoice',
+                    'date_due',
+                    'state',
+                ]
+            )
+
+        def lastInvoices(contract_id):
+            invoices = []
+            last_invoices_ids = self.O.GiscedataFacturacioFactura.search([
+                ('polissa_id', '=', contract_id),
+                ('state', '!=', 'draft')
+            ])[:LIMIT_INVOICES]
+            for invoice_id in last_invoices_ids:
+                invoice = getInvoice(invoice_id)
+                invoices.append({
+                    'number': self.anonymize(invoice['number']),
+                    'initial_date': invoice['data_inici'],
+                    'final_date': invoice['data_final'],
+                    'payer': self.anonymize(invoice['partner_id'][1]),
+                    'amount': invoice['amount_total'],
+                    'energy_invoiced': invoice['energia_kwh'],
+                    'days_invoiced': invoice['dies'],
+                    'invoice_date': invoice['date_invoice'],
+                    'due_date': invoice['date_due'],
+                    'state': invoice['state'],
+                })
+            return invoices
 
         if not contracts_ids:
             return ns(polisses=[])
@@ -256,6 +300,7 @@ class CallInfo(object):
                 lot_facturacio = contract['lot_facturacio'][1] \
                     if contract['lot_facturacio'] else ''
                 lectures_comptadors = meterReadings(contract['comptadors'])
+                last_invoices = lastInvoices(contract['id'])
                 ret.contracts.append(
                     ns(
                         start_date=contract['data_alta'],
@@ -281,6 +326,7 @@ class CallInfo(object):
                         lot_facturacio=lot_facturacio,
                         no_estimable=contract['no_estimable'],
                         lectures_comptadors=lectures_comptadors,
+                        invoices=last_invoices,
 
                     )
                 )

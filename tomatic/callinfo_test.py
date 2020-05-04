@@ -363,16 +363,17 @@ class CallInfo_Test(unittest.TestCase):
                   lectura: '...570'
                   origen: Telegestió
                   periode: 2.0DHA (P1)
-                - comptador: '...241'
-                  data: '2020-01-20'
-                  lectura: '...760'
-                  origen: Telegestió
-                  periode: 2.0DHA (P2)
-                - comptador: '...241'
-                  data: '2019-12-19'
-                  lectura: '...508'
-                  origen: Telegestió
-                  periode: 2.0DHA (P1)
+                invoices:
+                - amount: 51.69
+                  days_invoiced: 32
+                  due_date: '2020-02-04'
+                  energy_invoiced: 304
+                  final_date: '2020-01-20'
+                  initial_date: '2019-12-20'
+                  invoice_date: '2020-01-28'
+                  number: '...911'
+                  payer: '...iol'
+                  state: paid
               -
                 end_date: ''
                 cups: ...H0F
@@ -402,16 +403,17 @@ class CallInfo_Test(unittest.TestCase):
                   lectura: '...462'
                   origen: Telegestió
                   periode: 2.0A (P1)
-                - comptador: '...028'
-                  data: '2019-12-19'
-                  lectura: '...456'
-                  origen: Telegestió
-                  periode: 2.0A (P1)
-                - comptador: '...028'
-                  data: '2019-11-18'
-                  lectura: '...450'
-                  origen: Telegestió
-                  periode: 2.0A (P1)
+                invoices:
+                - amount: 7.6
+                  days_invoiced: 32
+                  due_date: '2020-02-04'
+                  energy_invoiced: 6
+                  final_date: '2020-01-20'
+                  initial_date: '2019-12-20'
+                  invoice_date: '2020-01-28'
+                  number: '...926'
+                  payer: '...iol'
+                  state: paid
               -
                 end_date: ''
                 cups: ...A0F
@@ -441,16 +443,17 @@ class CallInfo_Test(unittest.TestCase):
                   lectura: '...379'
                   origen: Telegestió
                   periode: 2.0DHA (P1)
-                - comptador: '...309'
-                  data: '2020-01-19'
-                  lectura: '...102'
-                  origen: Telegestió
-                  periode: 2.0DHA (P2)
-                - comptador: '...309'
-                  data: '2019-12-18'
-                  lectura: '...200'
-                  origen: Telegestió
-                  periode: 2.0DHA (P1)
+                invoices:
+                - amount: 75.49
+                  days_invoiced: 32
+                  due_date: '2020-02-04'
+                  energy_invoiced: 347
+                  final_date: '2020-01-19'
+                  initial_date: '2019-12-19'
+                  invoice_date: '2020-01-28'
+                  number: '...883'
+                  payer: '...ero'
+                  state: paid
               -
                 end_date: ''
                 cups: ...V0F
@@ -480,16 +483,17 @@ class CallInfo_Test(unittest.TestCase):
                   lectura: '...197'
                   origen: Telegestió
                   periode: 2.0DHA (P1)
-                - comptador: '...595'
-                  data: '2020-01-19'
-                  lectura: '...047'
-                  origen: Telegestió
-                  periode: 2.0DHA (P2)
-                - comptador: '...595'
-                  data: '2019-12-18'
-                  lectura: '...104'
-                  origen: Telegestió
-                  periode: 2.0DHA (P1)
+                invoices:
+                - amount: 46.23
+                  days_invoiced: 32
+                  due_date: '2020-02-04'
+                  energy_invoiced: 196
+                  final_date: '2020-01-19'
+                  initial_date: '2019-12-19'
+                  invoice_date: '2020-01-28'
+                  number: '...778'
+                  payer: '...nia'
+                  state: paid
             """)
 
     def test_contractInfo_whenAskNone(self):
@@ -533,16 +537,17 @@ class CallInfo_Test(unittest.TestCase):
                 periode: '2.0DHA (P1)'
                 lectura: '...570'
                 origen: Telegestió
-              - comptador: '...241'
-                data: '2020-01-20'
-                periode: '2.0DHA (P2)'
-                lectura: '...760'
-                origen: Telegestió
-              - comptador: '...241'
-                data: '2019-12-19'
-                periode: '2.0DHA (P1)'
-                lectura: '...508'
-                origen: Telegestió
+              invoices:
+              - amount: 51.69
+                days_invoiced: 32
+                due_date: '2020-02-04'
+                energy_invoiced: 304
+                final_date: '2020-01-20'
+                initial_date: '2019-12-20'
+                invoice_date: '2020-01-28'
+                number: '...911'
+                payer: '...iol'
+                state: paid
             """)
 
     def test_contractInfo_whenNoSoci(self):
@@ -579,17 +584,17 @@ class CallInfo_Test(unittest.TestCase):
                 lectura: '...803'
                 origen: Telegestió
                 periode: 2.0A (P1)
-              - comptador: '...747'
-                data: '2019-12-11'
-                lectura: '...701'
-                origen: Telegestió
-                periode: 2.0A (P1)
-              - comptador: '...747'
-                data: '2019-11-10'
-                lectura: '...584'
-                origen: Telegestió
-                periode: 2.0A (P1)
-
+              invoices:
+              - amount: 33.97
+                days_invoiced: 31
+                due_date: '2020-01-30'
+                energy_invoiced: 102
+                final_date: '2020-01-11'
+                initial_date: '2019-12-12'
+                invoice_date: '2020-01-23'
+                number: '...521'
+                payer: '...ard'
+                state: paid
             """)
 
     def test_contractInfo_whenEnergetica(self):
@@ -626,16 +631,17 @@ class CallInfo_Test(unittest.TestCase):
                 lectura: '...446'
                 origen: Telegestió
                 periode: 2.0A (P1)
-              - comptador: '...002'
-                data: '2019-12-17'
-                lectura: '...412'
-                origen: Telegestió
-                periode: 2.0A (P1)
-              - comptador: '...002'
-                data: '2019-11-14'
-                lectura: '...373'
-                origen: Telemesura
-                periode: 2.0A (P1)
+              invoices:
+              - amount: 22.3
+                days_invoiced: 29
+                due_date: '2020-01-30'
+                energy_invoiced: 34
+                final_date: '2020-01-15'
+                initial_date: '2019-12-18'
+                invoice_date: '2020-01-23'
+                number: '...083'
+                payer: '...tín'
+                state: paid
             """)
 
     def test_contractInfo_whenAskOne_withR1(self):
@@ -673,16 +679,17 @@ class CallInfo_Test(unittest.TestCase):
                 lectura: '...508'
                 origen: Autolectura
                 periode: 2.0A (P1)
-              - comptador: '...881'
-                data: '2020-01-11'
-                lectura: '...265'
-                origen: Estimada amb l'històric
-                periode: 2.0A (P1)
-              - comptador: '...881'
-                data: '2019-12-09'
-                lectura: '...974'
-                origen: Estimada
-                periode: 2.0A (P1)
+              invoices:
+              - amount: 65.62
+                days_invoiced: 35
+                due_date: '2020-02-23'
+                energy_invoiced: 240
+                final_date: '2019-12-09'
+                initial_date: '2019-11-05'
+                invoice_date: '2020-01-23'
+                number: '...223'
+                payer: '...cís'
+                state: open
             """)
 
     def test_contractInfo_whenAskOne_withB1(self):
@@ -719,16 +726,18 @@ class CallInfo_Test(unittest.TestCase):
                 lectura: '...868'
                 origen: Telegestió
                 periode: 2.0DHA (P1)
-              - comptador: '...144'
-                data: '2020-01-25'
-                lectura: '...672'
-                origen: Telegestió
-                periode: 2.0DHA (P2)
-              - comptador: '...144'
-                data: '2019-12-26'
-                lectura: '...474'
-                origen: Telegestió
-                periode: 2.0DHA (P1)
+              invoices:
+              - amount: 134.34
+                days_invoiced: 30
+                due_date: '2020-02-06'
+                energy_invoiced: 754
+                final_date: '2020-01-25'
+                initial_date: '2019-12-27'
+                invoice_date: '2020-01-30'
+                number: '...453'
+                payer: '...Mar'
+                state: open
+
             """)
 
     def test_contractInfo_whenAskOne_withC1(self):
@@ -760,6 +769,7 @@ class CallInfo_Test(unittest.TestCase):
               lot_facturacio: ''
               no_estimable: True
               lectures_comptadors: []
+              invoices: []
             """)
 
     def test_contractInfo_whenAskOne_withC2(self):
@@ -791,6 +801,7 @@ class CallInfo_Test(unittest.TestCase):
               lot_facturacio: ''
               no_estimable: True
               lectures_comptadors: []
+              invoices: []
             """)
 
     def test_contractInfo_whenAskOne_withM1(self):
@@ -822,6 +833,7 @@ class CallInfo_Test(unittest.TestCase):
               lot_facturacio: '02/2020'
               no_estimable: True
               lectures_comptadors: []
+              invoices: []
             """)
 
     def test_contractInfo_whenAskOne_withA3(self):
@@ -853,6 +865,7 @@ class CallInfo_Test(unittest.TestCase):
               lot_facturacio: ''
               no_estimable: True
               lectures_comptadors: []
+              invoices: []
             """)
 
     def test_contractInfo_whenAskOne_withD1s(self):
@@ -889,16 +902,17 @@ class CallInfo_Test(unittest.TestCase):
                 lectura: '...656'
                 origen: Telegestió
                 periode: 2.0DHA (P1)
-              - comptador: '...121'
-                data: '2020-01-14'
-                lectura: '...494'
-                origen: Telegestió
-                periode: 2.0DHA (P2)
-              - comptador: '...121'
-                data: '2019-12-15'
-                lectura: '...514'
-                origen: Telegestió
-                periode: 2.0DHA (P1)
+              invoices:
+              - amount: 28.93
+                days_invoiced: 30
+                due_date: '2020-01-22'
+                energy_invoiced: 262
+                final_date: '2020-01-14'
+                initial_date: '2019-12-16'
+                invoice_date: '2020-01-18'
+                number: '...104'
+                payer: '... L.'
+                state: paid
             """)
 
     def test_contractInfo_whenAskOne_titular_not_partner(self):
@@ -935,17 +949,17 @@ class CallInfo_Test(unittest.TestCase):
                 lectura: '...511'
                 origen: Telegestió
                 periode: 2.0A (P1)
-              - comptador: '...359'
-                data: '2019-12-15'
-                lectura: '...231'
-                origen: Telegestió
-                periode: 2.0A (P1)
-              - comptador: '...359'
-                data: '2019-11-13'
-                lectura: '...735'
-                origen: Telegestió
-                periode: 2.0A (P1)
-
+              invoices:
+              - amount: 64.74
+                days_invoiced: 30
+                due_date: '2020-01-30'
+                energy_invoiced: 280
+                final_date: '2020-01-14'
+                initial_date: '2019-12-16'
+                invoice_date: '2020-01-23'
+                number: '...234'
+                payer: '...rat'
+                state: paid
             """)
 
     def test_contractInfo_whenNoBank(self):
@@ -982,16 +996,17 @@ class CallInfo_Test(unittest.TestCase):
                 lectura: '...791'
                 origen: Telegestió
                 periode: 2.0A (P1)
-              - comptador: '...392'
-                data: '2019-12-07'
-                lectura: '...790'
-                origen: Telegestió
-                periode: 2.0A (P1)
-              - comptador: '...392'
-                data: '2019-11-07'
-                lectura: '...363'
-                origen: Telegestió
-                periode: 2.0A (P1)
+              invoices:
+              - amount: 45.11
+                days_invoiced: 32
+                due_date: '2020-02-13'
+                energy_invoiced: 1
+                final_date: '2020-01-08'
+                initial_date: '2019-12-08'
+                invoice_date: '2020-01-14'
+                number: '...819'
+                payer: '...deu'
+                state: open
 
             """)
 
@@ -1024,6 +1039,7 @@ class CallInfo_Test(unittest.TestCase):
               lot_facturacio: ''
               no_estimable: False
               lectures_comptadors: []
+              invoices: []
             """)
 
     def test_contractInfo_whenAskMore(self):
@@ -1060,16 +1076,17 @@ class CallInfo_Test(unittest.TestCase):
                 periode: '2.0DHA (P1)'
                 lectura: '...570'
                 origen: Telegestió
-              - comptador: '...241'
-                data: '2020-01-20'
-                periode: '2.0DHA (P2)'
-                lectura: '...760'
-                origen: Telegestió
-              - comptador: '...241'
-                data: '2019-12-19'
-                periode: '2.0DHA (P1)'
-                lectura: '...508'
-                origen: Telegestió
+              invoices:
+              - amount: 51.69
+                days_invoiced: 32
+                due_date: '2020-02-04'
+                energy_invoiced: 304
+                final_date: '2020-01-20'
+                initial_date: '2019-12-20'
+                invoice_date: '2020-01-28'
+                number: '...911'
+                payer: '...iol'
+                state: paid
             -
               start_date: '2012-03-29'
               end_date: ''
@@ -1099,16 +1116,17 @@ class CallInfo_Test(unittest.TestCase):
                 periode: '2.0A (P1)'
                 lectura: '...957'
                 origen: Telegestió
-              - comptador: '...638'
-                data: '2019-12-22'
-                periode: '2.0A (P1)'
-                lectura: '...850'
-                origen: Telegestió
-              - comptador: '...638'
-                data: '2019-11-21'
-                periode: '2.0A (P1)'
-                lectura: '...752'
-                origen: Telegestió
+              invoices:
+              - amount: 32.29
+                days_invoiced: 30
+                due_date: '2020-02-04'
+                energy_invoiced: 107
+                final_date: '2020-01-21'
+                initial_date: '2019-12-23'
+                invoice_date: '2020-01-28'
+                number: '...923'
+                payer: '...nna'
+                state: paid
             """)
 
     def test_getPartnerRelatedContracts_ordered(self):
