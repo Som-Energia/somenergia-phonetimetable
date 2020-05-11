@@ -319,7 +319,9 @@ class CallInfo_Test(unittest.TestCase):
             """)
 
     def test_partnersInfo_whenMatchesOne(self):
-        info = CallInfo(self.O, anonymize=True)
+        info = CallInfo(
+            self.O, anonymize=True, invoices_limit=1, meter_readings_limit=1
+        )
         partner_data = info.partnersInfo([410])
         self.assertNsEqual(partner_data, """\
             partners:
@@ -504,7 +506,9 @@ class CallInfo_Test(unittest.TestCase):
             """)
 
     def test_contractInfo_whenAskOne(self):
-        info = CallInfo(self.O, anonymize=True)
+        info = CallInfo(
+            self.O, anonymize=True, invoices_limit=1, meter_readings_limit=1
+        )
         contractsData = info.contractInfo([155], 410)
         self.assertNsEqual(contractsData, """\
             contracts:
@@ -551,7 +555,9 @@ class CallInfo_Test(unittest.TestCase):
             """)
 
     def test_contractInfo_whenNoSoci(self):
-        info = CallInfo(self.O, anonymize=True)
+        info = CallInfo(
+            self.O, anonymize=True, invoices_limit=1, meter_readings_limit=1
+        )
         contractsData = info.contractInfo([14817], 13597)
         self.assertNsEqual(contractsData, """\
             contracts:
@@ -598,7 +604,9 @@ class CallInfo_Test(unittest.TestCase):
             """)
 
     def test_contractInfo_whenEnergetica(self):
-        info = CallInfo(self.O, anonymize=True)
+        info = CallInfo(
+            self.O, anonymize=True, invoices_limit=1, meter_readings_limit=1
+        )
         contractsData = info.contractInfo([102631], 69906)
         self.assertNsEqual(contractsData, """\
             contracts:
@@ -645,7 +653,9 @@ class CallInfo_Test(unittest.TestCase):
             """)
 
     def test_contractInfo_whenAskOne_withR1(self):
-        info = CallInfo(self.O, anonymize=True)
+        info = CallInfo(
+            self.O, anonymize=True, invoices_limit=1, meter_readings_limit=1
+        )
         contractsData = info.contractInfo([231889], 57407)
         self.assertNsEqual(contractsData, """\
             contracts:
@@ -693,7 +703,9 @@ class CallInfo_Test(unittest.TestCase):
             """)
 
     def test_contractInfo_whenAskOne_withB1(self):
-        info = CallInfo(self.O, anonymize=True)
+        info = CallInfo(
+            self.O, anonymize=True, invoices_limit=1, meter_readings_limit=1
+        )
         contractsData = info.contractInfo([227854], 146156)
         self.assertNsEqual(contractsData, """\
             contracts:
@@ -741,7 +753,9 @@ class CallInfo_Test(unittest.TestCase):
             """)
 
     def test_contractInfo_whenAskOne_withC1(self):
-        info = CallInfo(self.O, anonymize=True)
+        info = CallInfo(
+            self.O, anonymize=True, invoices_limit=1, meter_readings_limit=1
+        )
         contractsData = info.contractInfo([260522], 164754)
         self.assertNsEqual(contractsData, """\
             contracts:
@@ -773,7 +787,9 @@ class CallInfo_Test(unittest.TestCase):
             """)
 
     def test_contractInfo_whenAskOne_withC2(self):
-        info = CallInfo(self.O, anonymize=True)
+        info = CallInfo(
+            self.O, anonymize=True, invoices_limit=1, meter_readings_limit=1
+        )
         contractsData = info.contractInfo([260052], 35641)
         self.assertNsEqual(contractsData, """\
             contracts:
@@ -805,7 +821,9 @@ class CallInfo_Test(unittest.TestCase):
             """)
 
     def test_contractInfo_whenAskOne_withM1(self):
-        info = CallInfo(self.O, anonymize=True)
+        info = CallInfo(
+            self.O, anonymize=True, invoices_limit=1, meter_readings_limit=1
+        )
         contractsData = info.contractInfo([260922], 164993)
         self.assertNsEqual(contractsData, """\
             contracts:
@@ -837,7 +855,9 @@ class CallInfo_Test(unittest.TestCase):
             """)
 
     def test_contractInfo_whenAskOne_withA3(self):
-        info = CallInfo(self.O, anonymize=True)
+        info = CallInfo(
+            self.O, anonymize=True, invoices_limit=1, meter_readings_limit=1
+        )
         contractsData = info.contractInfo([261096], 165075)
         self.assertNsEqual(contractsData, """\
             contracts:
@@ -869,7 +889,9 @@ class CallInfo_Test(unittest.TestCase):
             """)
 
     def test_contractInfo_whenAskOne_withD1s(self):
-        info = CallInfo(self.O, anonymize=True)
+        info = CallInfo(
+            self.O, anonymize=True, invoices_limit=1, meter_readings_limit=1
+        )
         contractsData = info.contractInfo([39518], 28971)
         self.assertNsEqual(contractsData, """\
             contracts:
@@ -916,7 +938,9 @@ class CallInfo_Test(unittest.TestCase):
             """)
 
     def test_contractInfo_whenAskOne_titular_not_partner(self):
-        info = CallInfo(self.O, anonymize=True)
+        info = CallInfo(
+            self.O, anonymize=True, invoices_limit=1, meter_readings_limit=1
+        )
         contractsData = info.contractInfo([4], 2104)
         self.assertNsEqual(contractsData, """\
             contracts:
@@ -963,7 +987,9 @@ class CallInfo_Test(unittest.TestCase):
             """)
 
     def test_contractInfo_whenNoBank(self):
-        info = CallInfo(self.O, anonymize=True)
+        info = CallInfo(
+            self.O, anonymize=True, invoices_limit=1, meter_readings_limit=1
+        )
         contractsData = info.contractInfo([82920], 56964)
         self.assertNsEqual(contractsData, """\
             contracts:
@@ -1011,7 +1037,9 @@ class CallInfo_Test(unittest.TestCase):
             """)
 
     def test_contractInfo_whenNoInvoicing(self):
-        info = CallInfo(self.O, anonymize=True)
+        info = CallInfo(
+            self.O, anonymize=True, invoices_limit=1, meter_readings_limit=1
+        )
         contractsData = info.contractInfo([120937], 80903)
         self.assertNsEqual(contractsData, """\
             contracts:
@@ -1043,7 +1071,9 @@ class CallInfo_Test(unittest.TestCase):
             """)
 
     def test_contractInfo_whenAskMore(self):
-        info = CallInfo(self.O, anonymize=True)
+        info = CallInfo(
+            self.O, anonymize=True, invoices_limit=1, meter_readings_limit=1
+        )
         contractsData = info.contractInfo([155, 250], 410)
         self.assertNsEqual(contractsData, """\
             contracts:
@@ -1138,32 +1168,32 @@ class CallInfo_Test(unittest.TestCase):
         )
 
     def test_getByPhone_global(self):
-        info = CallInfo(self.O)
+        info = CallInfo(self.O, invoices_limit=1, meter_readings_limit=1)
         data = info.getByPhone("630079522")
         self.assertB2BEqual(data.dump())
 
     def test_getByPhone_global2(self):
-        info = CallInfo(self.O)
+        info = CallInfo(self.O, invoices_limit=1, meter_readings_limit=1)
         data = info.getByPhone("935514714")
         self.assertB2BEqual(data.dump())
 
     def test_getByEmail_global(self):
-        info = CallInfo(self.O)
+        info = CallInfo(self.O, invoices_limit=1, meter_readings_limit=1)
         data = info.getByEmail("testing%@somenergia.coop")
         self.assertB2BEqual(data.dump())
 
     def test_getBySoci_global(self):
-        info = CallInfo(self.O)
+        info = CallInfo(self.O, invoices_limit=1, meter_readings_limit=1)
         data = info.getBySoci(dbconfig.personaldata["nsoci"])
         self.assertB2BEqual(data.dump())
 
     def test_getByDni_global(self):
-        info = CallInfo(self.O)
+        info = CallInfo(self.O, invoices_limit=1, meter_readings_limit=1)
         data = info.getByDni(dbconfig.personaldata["nif"])
         self.assertB2BEqual(data.dump())
 
     def test_getByName_global(self):
-        info = CallInfo(self.O)
+        info = CallInfo(self.O, invoices_limit=1, meter_readings_limit=1)
         complete_name = dbconfig.personaldata["surname"]
         complete_name += ", "
         complete_name += dbconfig.personaldata["name"]
@@ -1171,12 +1201,14 @@ class CallInfo_Test(unittest.TestCase):
         self.assertB2BEqual(data.dump())
 
     def test_getByPartnersId_global(self):
-        info = CallInfo(self.O)
+        info = CallInfo(self.O, invoices_limit=1, meter_readings_limit=1)
         data = info.getByPartnersId([dbconfig.personaldata["partnerid"]])
         self.assertB2BEqual(data.dump())
 
     def test_getByPartnersId_whenTooManyResults(self):
-        info = CallInfo(self.O, results_limit=3)
+        info = CallInfo(
+            self.O, results_limit=3, invoices_limit=2, meter_readings_limit=1
+        )
         data = info.getByPartnersId([
                     37957,
                     38073,

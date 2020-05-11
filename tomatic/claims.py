@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 import re
 from yamlns import namespace as ns
-from consolemsg import error, warn
 
 PHONE = 2
 COMERCIALIZADORA = '06'
@@ -44,8 +43,7 @@ def userId(erp, emails, person):
             ['login']
         )[0].get("id")
         return user_id
-    except IndexError as e:
-        warn("user '{}' not found, {}. Using default.", person, e)
+    except IndexError:
         return None
 
 
@@ -131,7 +129,6 @@ class Claims(object):
             'partner_address_id': partner_address.get('id'),
             'state': 'done' if case.solved else 'open'
         }
-        # TODO: 'user_id': userId(self.erp, case.person)
         user_id = userId(self.erp, self.emails, case.person)
 
         if user_id:

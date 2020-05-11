@@ -3,20 +3,28 @@
 from __future__ import print_function
 from yamlns import namespace as ns
 
-LIMIT_INVOICES = 1
-LIMIT_METER_READINGS = 1
-
 
 class CallInfo(object):
 
-    def __init__(self, O, results_limit=None, anonymize=False):
+    def __init__(
+        self, O, results_limit=None, anonymize=False, invoices_limit=None,
+        meter_readings_limit=None
+    ):
         self.O = O
         self.results_limit = results_limit
         self._anonymize = anonymize
+        self.invoices_limit = invoices_limit
+        self.meter_readings_limit = meter_readings_limit
 
         if not self.results_limit:
             config = ns.load('config.yaml')
             self.results_limit = config.threshold_hits
+
+        if not self.invoices_limit:
+            self.invoices_limit = 12
+
+        if not self.meter_readings_limit:
+            self.meter_readings_limit = 12
 
     def anonymize(self, string):
         if not self._anonymize:
@@ -198,7 +206,7 @@ class CallInfo(object):
                     break
                 meter_readings_ids = meter['lectures']
                 limited_meter_readings_ids = meter_readings_ids[
-                    :LIMIT_METER_READINGS
+                    :self.meter_readings_limit
                 ]
                 for reading_id in limited_meter_readings_ids:
                     reading = getReading(reading_id)
@@ -233,7 +241,7 @@ class CallInfo(object):
             last_invoices_ids = self.O.GiscedataFacturacioFactura.search([
                 ('polissa_id', '=', contract_id),
                 ('state', '!=', 'draft')
-            ])[:LIMIT_INVOICES]
+            ])[:self.invoices_limit]
             for invoice_id in last_invoices_ids:
                 invoice = getInvoice(invoice_id)
                 invoices.append({
