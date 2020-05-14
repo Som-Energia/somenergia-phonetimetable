@@ -17,6 +17,7 @@ except ImportError:
     not dbconfig or not dbconfig.erppeek,
     "Requires configuring dbconfig.erppeek"
 )
+@unittest.skip("WIP: creation of ATC cases.")
 class Claims_Test(unittest.TestCase):
 
     def setUp(self):
