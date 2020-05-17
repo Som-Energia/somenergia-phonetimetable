@@ -7,13 +7,11 @@
         display: inline-flex
         .plane-info
             position: fixed
-            left: 16%
+            left: 14.6%
             transform: translate(-50%)
+            margin-top: 0.8%
         .call-info
             display: inline-flex
-            .main-info-card
-                margin-left: 35px
-                height: 680px
         .card-motius
             max-width: 570px
             height: 680px
@@ -33,21 +31,26 @@
                     margin-left: 10px
                     .textfield-filter
                         width: 445px
+        .contracts
+            position: fixed
+            transform: translate(580px)
+            margin-top: 0.8%
+            .no-info
+              margin-left: 200px
         .card-log
-            width: 570px
-            height: 330px
-            margin-top: 350px
-            margin-right: 2%
-            right: 0
+            width: 520px
+            height: 385px
+            margin-left: 1%
             position: absolute
+            margin-top: 270px
             .title
                 font-weight: bold
         .card-log-person
-            width: 570px
-            height: 330px
+            height: 640px
             margin-right: 2%
             right: 0
             position: absolute
+            margin-top: 12px
             .title
                 font-weight: bold
             .refresh-button
@@ -75,8 +78,8 @@
     .logs
         display: inline-block
         background-color: #EEEEEE
-        width: 540px
-        height: 250px
+        width: 490px
+        height: 290px
         overflow: auto
         .registres
             font-size: 14px
@@ -84,8 +87,8 @@
     .logs-person
         display: inline-block
         background-color: #EEEEEE
-        width: 540px
-        height: 250px
+        width: 400px
+        height: 560px
         overflow-x: hidden
         .registres
             width: 530px
@@ -244,10 +247,9 @@
                 font-weight: bold
                 margin-right: 5px
                 color: green
-            
+
     .partner-card
         display: inline-block
-        margin-bottom: 20px
         .partner-tabs
             max-width: 570px
             background-color: #8FBC8F
@@ -268,71 +270,45 @@
         .card-info
             background-color: #FFFFFF
             max-width: 570px
-            min-height: 632px
 
-    .contract-info-selected
-        border: 2px solid #8FBC8F
-        background-color: beige
-        margin-left: 10px
-        margin-right: 10px
-        margin-bottom: 10px
-        width: 515px
-        .pe-list-tile__title
-            max-height: inherit
-            font-size: 14px
-            line-height: 1.5
-    .contract-info
-        border: 2px solid #8FBC8F
-        margin-bottom: 10px
-        width: 515px
-        .pe-list-tile__title
-            max-height: inherit
-            font-size: 14px
-            line-height: 1.5
     .contract-info-box
         width: 500px
         color: #000
         display: table
         margin-left: 3px
         .contract-info-item
-            .label
-                display: inline-block
-                font-weight: bold
-                margin-right: 5px
-            .label-right
-                display: inline-block
-                font-weight: bold
-                float: right
-                margin-right: 15px
-            .label-alert
-                display: inline-block
-                font-weight: bold
-                margin-right: 5px
-                color: #E1232C
-            .label-energetica
-                display: inline-block
-                font-weight: bold
-                margin-right: 5px
-                color: green
-            .label-generation
-                display: inline-block
-                font-weight: bold
-                margin-right: 5px
-                color: brown
-
-    .contract-field
-        background-color: #EEEEEE
-        width: 540px
-        height: 450px
-        overflow: auto
-        border-radius: 2%
-        .center
-            text-align: center
-            margin-top: 10px
-        .pe-list-tile
-            position: static
-            .pe-list-tile__primary
-               position: static
+          .label
+            display: inline-block
+            font-weight: bold
+            margin-right: 5px
+          .label-right
+            display: inline-block
+            font-weight: bold
+            float: right
+            margin-right: 15px
+          .label-alert
+            display: inline-block
+            font-weight: bold
+            margin-right: 5px
+            color: #E1232C
+          .label-energetica
+            display: inline-block
+            font-weight: bold
+            margin-right: 5px
+            color: green
+          .label-generation
+            display: inline-block
+            font-weight: bold
+            margin-right: 5px
+            color: brown
+        table, th, td
+          min-width: -webkit-fill-available
+          width: -moz-available
+          margin-top: 8px
+          border: 1px solid #f0c573
+          border-collapse: collapse
+        th, td
+          padding: 6px
 
     .all-info
         display: inline-block
@@ -391,6 +367,10 @@
 .icon-settings
     font-size: 25px
 
+.icon-clipboard
+    font-size: 25px
+    color: #228B22
+
 .dialog-settings
   .pe-button
     min-width: fit-content
@@ -404,7 +384,7 @@
   display: inline-block
   .tooltiptext
       visibility: hidden
-      max-width: 520px
+      max-width: 360px
       background-color: #000
       color: #fff
       text-align: center
@@ -414,14 +394,14 @@
       z-index: 1
       bottom: 115%
       opacity: 0.85
-      left: 50%
+      left: 37%
       transform: translateX(-50%)
       .main-text
           width: max-content
-          max-width: 500px
+          max-width: 340px
   .tooltiptext-first
       visibility: hidden
-      max-width: 520px
+      max-width: 360px
       background-color: #000
       color: #fff
       text-align: center
@@ -430,11 +410,11 @@
       position: absolute
       z-index: 1
       opacity: 0.85
-      left: 50%
+      left: 37%
       transform: translateX(-50%)
       .main-text
           width: max-content
-          max-width: 500px
+          max-width: 340px
   .tooltiptext::after
       content: " "
       position: absolute
@@ -443,20 +423,92 @@
       border-width: 5px
       border-style: solid
       border-color: black transparent transparent transparent
-      left: 50%
+      left: 37%
       transform: translateX(-50%)
   .tooltiptext-first::after
       content: " "
       position: absolute
       bottom: 100%
-      left: 50%
+      left: 37%
       margin-left: -5px
       border-width: 5px
       border-style: solid
       border-color: transparent transparent black transparent
+
+.factures
+  background-color: lemonchiffon
+  max-height: 170px
+  margin-top: 10px
+  .factures-info
+    max-height: 170px
+    overflow-y: scroll
+    .factura-info-item
+      border: 1px solid #fd940d
+      margin: 10px
+      padding 10px
+      .label
+        display: inline-block
+        font-weight: bold
+        margin-right: 5px
+      .label-right
+        display: inline-block
+        float: right
+        margin-right: 15px
 
 .tooltip:hover .tooltiptext
   visibility: visible
 
 .tooltip:hover .tooltiptext-first
   visibility: visible
+
+
+.card-motius
+  .pe-dialog__content
+    width: 580px
+    .pe-dialog-pane__content
+      width: 580px
+  .card-motius-title
+    display: flex
+    align-items: baseline
+    .motiu
+      font-weight: bold
+      margin-top: 5px
+    .filter
+      margin-left: 10px
+      .textfield-filter
+          width: 445px
+  .motius
+    display: inline-block
+    background-color: #EEEEEE
+    width: 530px
+    max-height: 460px
+    overflow-y: auto
+    .pe-list-tile--disabled
+      .pe-list-tile__title
+        color: gray
+    .llista-motius-selected
+      font-size: 14px
+      background-color: #e6ffe6
+    .llista-motius-unselected
+      font-size: 14px
+      background-color: #eee
+  .filter
+    margin-left: 10px
+    .textfield-filter
+      width: 445px
+  .final-motius
+    color: black
+    font-size: initial
+    margin-top: 10px
+    .textfield-comentaris
+      background-color: lemonchiffon
+      margin-top: 1px
+      display: inline-block
+      width: 530px
+  .save
+    padding-right: 10px
+
+.meter-readings
+  max-height: 128px
+  overflow-y: auto
+  padding: 8px
