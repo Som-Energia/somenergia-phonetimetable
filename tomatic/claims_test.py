@@ -17,7 +17,6 @@ except ImportError:
     not dbconfig or not dbconfig.erppeek,
     "Requires configuring dbconfig.erppeek"
 )
-@unittest.skip("WIP: creation of ATC cases.")
 class Claims_Test(unittest.TestCase):
 
     def setUp(self):
@@ -54,7 +53,7 @@ class Claims_Test(unittest.TestCase):
                 for case in atc_cases[person]:
                     claims = Claims(self.erp)
                     case_id = claims.create_atc_case(case)
-                    last_atc_case_id = self.erp.GiscedataAtc.search()[-1]
+                    last_atc_case_id = self.erp.GiscedataAtc.search()[0]
                     self.assertEqual(case_id, last_atc_case_id)
 
     def test_createAtcCase_multipleCases(self):
@@ -67,7 +66,7 @@ class Claims_Test(unittest.TestCase):
                 for case in atc_cases[person]:
                     claims = Claims(self.erp)
                     case_id = claims.create_atc_case(case)
-                    last_atc_case_id = self.erp.GiscedataAtc.search()[-1]
+                    last_atc_case_id = self.erp.GiscedataAtc.search()[0]
                     self.assertEqual(case_id, last_atc_case_id)
 
     def test_createAtcCase_multiplePersons(self):
@@ -80,7 +79,7 @@ class Claims_Test(unittest.TestCase):
                 for case in atc_cases[person]:
                     claims = Claims(self.erp)
                     case_id = claims.create_atc_case(case)
-                    last_atc_case_id = self.erp.GiscedataAtc.search()[-1]
+                    last_atc_case_id = self.erp.GiscedataAtc.search()[0]
                     self.assertEqual(case_id, last_atc_case_id)
 
 

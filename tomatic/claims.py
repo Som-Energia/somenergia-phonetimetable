@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
-import re
 from yamlns import namespace as ns
 
 PHONE = 2
-COMERCIALIZADORA = '06'
+COMERCIALIZADORA = 1
+RECLAMANTE = '01'
 
 
 def partnerId(erp, partner):
@@ -15,7 +15,7 @@ def partnerAddress(erp, partner_id):
     partner_address_model = erp.ResPartnerAddress
     return partner_address_model.read(
         [('partner_id', '=', partner_id)],
-        ['id', 'state_id']
+        ['id', 'state_id', 'email']
     )[0]
 
 
@@ -58,6 +58,16 @@ def resultat(erp, procedente, improcedente):
 def sectionName(erp, section_id):
     claims_model = erp.GiscedataSubtipusReclamacio
     return claims_model.read(section_id, ['desc']).get('desc')
+
+
+def claimSectionID(erp, section_description):
+    claims_model = erp.GiscedataSubtipusReclamacio
+    return claims_model.search([('desc', '=', section_description)])[0]
+
+
+def crmSectionID(erp, section):
+    sections_model = erp.CrmCaseSection
+    return sections_model.search([('name', 'ilike', section)])[0]
 
 
 class Claims(object):
@@ -118,10 +128,13 @@ class Claims(object):
         '''
         partner_id = partnerId(self.erp, case.partner)
         partner_address = partnerAddress(self.erp, partner_id)
-        section_id = int(re.search('\d+', case.reason).group())
+        crm_section_id = crmSectionID(self.erp, case.user)
+        claim_section_id = claimSectionID(
+            self.erp, case.reason.split('-')[-1].strip()
+        )
         data_crm = {
-            'section_id': section_id,
-            'name': sectionName(self.erp, section_id),
+            'section_id': crm_section_id,
+            'name': sectionName(self.erp, claim_section_id),
             'description': case.observations,
             'canal_id': PHONE,
             'polissa_id': contractId(self.erp, case.contract),
@@ -129,8 +142,8 @@ class Claims(object):
             'partner_address_id': partner_address.get('id'),
             'state': 'done' if case.solved else 'open'
         }
-        user_id = userId(self.erp, self.emails, case.person)
 
+        user_id = userId(self.erp, self.emails, case.person)
         if user_id:
             data_crm['user_id'] = user_id
 
@@ -141,13 +154,16 @@ class Claims(object):
             'provincia': partner_address.get('state_id')[0],
             'total_cups': 1,
             'cups_id': cupsId(self.erp, case.cups),
-            'subtipus_id': section_id,
-            'reclamante': COMERCIALIZADORA,
+            'subtipus_id': claim_section_id,
+            'reclamante': RECLAMANTE,
             'resultat': resultat(
                 self.erp,
                 case.procedente,
                 case.improcedente
-            ),
+            ) if case.solved else "",
+            'date': case.date,
+            'email_from': partner_address.get('email'),
+            'time_tracking_id': COMERCIALIZADORA
         }
         data_atc['crm_id'] = crm_id
         atc_obj = self.erp.GiscedataAtc
