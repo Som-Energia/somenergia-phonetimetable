@@ -96,7 +96,7 @@ class Claims(object):
             else:
                 section = self.assign_user
 
-            message = u"[{}] {} - {}".format(
+            message = u"[{}] {}. {}".format(
                 section,
                 claim.get("name"),
                 claim.get("desc")
@@ -113,7 +113,7 @@ class Claims(object):
             person:
                 - date: D-M-YYYY H:M:S
                 person: person
-                reason: '[section.name] claim.name - claim.desc'
+                reason: '[´section.name´] ´claim.name´. ´claim.desc´'
                 partner: partner number
                 contract: contract number
                 procedente: ''
@@ -130,7 +130,7 @@ class Claims(object):
         partner_address = partnerAddress(self.erp, partner_id)
         crm_section_id = crmSectionID(self.erp, case.user)
         claim_section_id = claimSectionID(
-            self.erp, case.reason.split('-')[-1].strip()
+            self.erp, case.reason.split('.')[-1].strip()
         )
         data_crm = {
             'section_id': crm_section_id,
