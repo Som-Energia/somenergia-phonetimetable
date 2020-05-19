@@ -26,21 +26,21 @@ Questionnaire.call = {
     "ext": "",
 };
 
+var extras_dict = {}
 var reason_filter = "";
 var call_reasons = {
     'general': [],
-    'specific': [],
     'extras': []
 }
 var desar = "Desa";
 
-var saveExtras = function(extras, formated_reason) {
-    for (index in extras) {
-        if (extras[index] !== "") {
-            call_reasons.extras.push(extras[index]);
-            extras_dict[extras[index]] = formated_reason;
-        }
-    }
+
+function getExtras(extras) {
+  var reasons = [];
+  for (extra in extras) {
+    reasons.push(extras_dict[extras[extra]]);
+  }
+  return reasons;
 }
 
 var getClaims = function() {
@@ -55,8 +55,8 @@ var getClaims = function() {
       }
       else{
         call_reasons.general = response.info.claims;
-        // Diccionari
-        // saveExtras(response.info.info[i].slice(2), formated_reason);
+        extras_dict = response.info.dict;
+        call_reasons.extras = Object.keys(response.info.dict);
       }
   }, function(error) {
       console.debug('Info GET apicall failed: ', error);
@@ -192,7 +192,6 @@ var llistaMotius = function() {
   }
   var list_reasons = call_reasons.general;
   if (reason_filter !== "") {
-    list_reasons = call_reasons.specific;
     var filtered_regular = list_reasons.filter(conte);
     var filtered_extras = call_reasons.extras.filter(conte);
     var extras = getExtras(filtered_extras);
