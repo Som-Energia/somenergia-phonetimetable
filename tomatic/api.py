@@ -489,7 +489,7 @@ def callingPhone():
     phone = data['phone']
     ext = data['ext']
     clients = websockets.get(ext, [])
-    time = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
+    time = datetime.now().strftime('%m-%d-%Y %H:%M:%S')
     try:
         logs = ns.load(CONFIG.my_calls_log)
         if ext not in logs:
