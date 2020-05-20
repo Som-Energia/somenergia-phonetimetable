@@ -150,8 +150,21 @@ class Execution_Test(unittest.TestCase):
         self.waitExist(execution.path/'ended')
         self.assertEqual((execution.outputFile).read_text(), "Hola") 
 
-    @unittest.skipIf(sys.version_info[0] < 3, "Just for Python 3")
-    def test_run_badCommand_py3(self):
+    @unittest.skipIf(sys.version_info[0] < 3, "Just for Python 3 until 3.7")
+    @unittest.skipIf(sys.version_info[:2] >= (3,8), "Just for Python 3 until 3.7")
+    def test_run_badCommand_py37(self):
+        # TODO: This should be more detectable for the listing
+        execution = Execution(name="One")
+        execution.createSandbox()
+        with self.assertRaises(OSError) as ctx:
+            execution.run([
+                "badcommandthatdoesnotexist",
+            ])
+        self.assertEqual(format(ctx.exception),
+            "[Errno 2] No such file or directory: 'badcommandthatdoesnotexist': 'badcommandthatdoesnotexist'")
+
+    @unittest.skipIf(sys.version_info[:2] < (3,8), "Just for Python 3.8 and above")
+    def test_run_badCommand_py38(self):
         # TODO: This should be more detectable for the listing
         execution = Execution(name="One")
         execution.createSandbox()
