@@ -80,6 +80,7 @@ class Execution_Test(unittest.TestCase):
     def test_list_manyExecutions(self):
         execution1 = Execution(name="First")
         execution1.createSandbox()
+        time.sleep(0.01) # ensure the timestamp changes
         execution2 = Execution(name="Last")
         execution2.createSandbox()
         result = [e.name for e in Execution.list()]
