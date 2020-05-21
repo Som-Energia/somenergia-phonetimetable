@@ -345,7 +345,6 @@ var refreshCall = function(data) {
   CallInfo.file_info = { 1: "empty" };
   PartnerInfo.main_partner = 0;
   search_by = "phone";
-  Calls.getLog(Questionnaire.call.phone);
   getInfo();
 }
 
