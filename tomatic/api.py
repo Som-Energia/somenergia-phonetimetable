@@ -490,23 +490,33 @@ def callingPhone():
     ext = data['ext']
     clients = websockets.get(ext, [])
     time = datetime.now().strftime('%m-%d-%Y %H:%M:%S')
-    try:
+
+    if not os.path.exists('atc_cases'):
+        os.makedirs('atc_cases')
+
+    if not os.path.isfile(CONFIG.my_calls_log):
+        error("[U] Opening file {} but it doesn't exists", CONFIG.my_calls_log)
+        step("Creating file...")
+
+        f = open(CONFIG.my_calls_log, "w+")
+        f.close()
+        logs = ns()
+    else:
         logs = ns.load(CONFIG.my_calls_log)
-        if ext not in logs:
-            logs[ext] = []
-        elif len(logs[ext]) == 20:
-            logs[ext].pop(0)
-        info = {
-            "data": time,
-            "telefon": phone,
-            "motius": "",
-            "partner": "",
-            "contracte": "",
-        }
-        logs[ext].append(info)
-        logs.dump(CONFIG.my_calls_log)
-    except ValueError:
-        error("[S] Opening file {} but it doesn't exists", CONFIG.my_calls_log)
+
+    if ext not in logs:
+        logs[ext] = []
+    elif len(logs[ext]) == 20:
+        logs[ext].pop(0)
+    info = {
+        "data": time,
+        "telefon": phone,
+        "motius": "",
+        "partner": "",
+        "contracte": "",
+    }
+    logs[ext].append(info)
+    logs.dump(CONFIG.my_calls_log)
 
     if not clients:
         error("Calling {} but has no client.", ext)
@@ -717,20 +727,8 @@ def getMyLog(ext):
 def updateMyLog(ext):
     msg = 'ok'
 
-    if not os.path.exists('atc_cases'):
-        os.makedirs('atc_cases')
-
-    if not os.path.isfile(CONFIG.my_calls_log):
-        error("[U] Opening file {} but it doesn't exists", CONFIG.my_calls_log)
-        step("Creating file...")
-
-        f = open(CONFIG.my_calls_log, "w+")
-        f.close()
-        logs = ns()
-    else:
-        logs = ns.load(CONFIG.my_calls_log)
-
     try:
+        logs = ns.load(CONFIG.my_calls_log)
         info = ns.loads(request.data)
         if ext not in logs:
             logs[ext] = [info]
