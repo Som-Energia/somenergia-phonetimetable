@@ -13,36 +13,25 @@ from pathlib import Path
 # python -m scripts.create_atc_case --d atc_cases
 
 
-def main(yaml_directory):
+def main(yaml_directory, current_date):
     erp = erppeek.Client(**dbconfig.erppeek)
     claims = Claims(erp)
 
-    config = ns.load('config.yaml')
+    atc_yaml_file = "{}.yaml".format(current_date)
+    atc_yaml_path = os.path.join(yaml_directory, atc_yaml_file)
 
-    entries = os.listdir(yaml_directory)
-    for entry in entries:
+    try:
+        atc_yaml = ns.load(atc_yaml_path)
+        for person in atc_yaml:
+            for case in atc_yaml[person]:
+                case_id = claims.create_atc_case(case)
+                logging.info(" Case {} created.".format(case_id))
 
-        if not entry.endswith(".yaml"):
-            logging.warning(" Skipped file '{}': Not a yaml.".format(entry))
-            continue
-
-        atc_yaml_path = os.path.join(yaml_directory, entry)
-        if atc_yaml_path == config.my_calls_log:
-            logging.warning(" Skipped file '{}': No info file.".format(entry))
-            continue
-
-        try:
-            atc_yaml = ns.load(atc_yaml_path)
-            for person in atc_yaml:
-                for case in atc_yaml[person]:
-                    case_id = claims.create_atc_case(case)
-                    logging.info(" Case {} created.".format(case_id))
-
-        except Exception as e:
-            logging.error(" Something went wrong in {}: {}".format(
-                atc_yaml_path,
-                str(e))
-            )
+    except Exception as e:
+        logging.error(" Something went wrong in {}: {}".format(
+            atc_yaml_file,
+            str(e))
+        )
 
 
 if __name__ == '__main__':
@@ -71,9 +60,9 @@ if __name__ == '__main__':
     logging.info(" Script starts: let's go!")
 
     try:
-        main(args.yaml_directory)
+        main(args.yaml_directory, current_date)
     except Exception as e:
-        logging.error(" Script not completed successfully: {}", str(e))
+        logging.error(" Script not completed successfully: {}".format(str(e)))
     else:
         logging.info(" Script ends: success!")
 
