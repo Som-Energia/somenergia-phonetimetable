@@ -759,7 +759,7 @@ def updateClaims():
 
     f = open(CONFIG.claims_file, "w+")
     for claim in erp_claims:
-        f.write(claim)
+        f.write(claim.encode('utf-8'))
         f.write('\n')
     f.close()
 
