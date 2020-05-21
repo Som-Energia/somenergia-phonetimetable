@@ -99,7 +99,7 @@ var contractCard = function(info, partner_id) {
           events: {
             onclick: function() {
               Questionnaire.motiu(
-                { 'cups': info.cups_adress, 'number': s_num },
+                { 'cups': info.cups, 'number': s_num },
                 partner_id
               );
             },
