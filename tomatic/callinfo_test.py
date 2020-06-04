@@ -952,7 +952,7 @@ class CallInfo_Test(unittest.TestCase):
               power: 3.4
               fare: 2.0A
               number: '0000004'
-              last_invoiced: '2020-01-14'
+              last_invoiced: '2020-04-20'
               suspended_invoicing: false
               pending_state: 'Correct'
               open_cases: []
@@ -969,19 +969,19 @@ class CallInfo_Test(unittest.TestCase):
               no_estimable: True
               lectures_comptadors:
               - comptador: '...359'
-                data: '2020-01-14'
-                lectura: '...511'
-                origen: Telegestió
+                data: '2020-04-20'
+                lectura: '...800'
+                origen: Visual
                 periode: 2.0A (P1)
               invoices:
-              - amount: 64.74
-                days_invoiced: 30
-                due_date: '2020-01-30'
-                energy_invoiced: 280
-                final_date: '2020-01-14'
-                initial_date: '2019-12-16'
-                invoice_date: '2020-01-23'
-                number: '...234'
+              - amount: 100.28
+                days_invoiced: 97
+                due_date: '2020-11-18'
+                energy_invoiced: 289
+                final_date: '2020-04-20'
+                initial_date: '2020-01-15'
+                invoice_date: '2020-05-22'
+                number: '...542'
                 payer: '...rat'
                 state: paid
             """)
