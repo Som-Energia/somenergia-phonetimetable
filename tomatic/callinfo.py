@@ -240,7 +240,8 @@ class CallInfo(object):
             invoices = []
             last_invoices_ids = self.O.GiscedataFacturacioFactura.search([
                 ('polissa_id', '=', contract_id),
-                ('state', '!=', 'draft')
+                ('state', '!=', 'draft'),
+                ('type', 'in', ['out_invoice', 'out_refund'])
             ])[:self.invoices_limit]
             for invoice_id in last_invoices_ids:
                 invoice = getInvoice(invoice_id)
