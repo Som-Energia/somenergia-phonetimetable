@@ -8,9 +8,6 @@ import os
 from datetime import date
 from tomatic.claims import Claims
 from yamlns import namespace as ns
-from pathlib import Path
-
-# python -m scripts.create_atc_case --d atc_cases
 
 
 def main(yaml_directory, current_date):
@@ -49,7 +46,8 @@ if __name__ == '__main__':
     current_date = today.strftime("%Y%m%d")
 
     logs_directory = os.path.join(args.yaml_directory, "logs")
-    Path(logs_directory).mkdir(parents=True, exist_ok=True)
+    if not os.path.exists(logs_directory):
+        os.makedirs(logs_directory)
     logging.basicConfig(
         filename='{}/{}.log'.format(
             logs_directory,
