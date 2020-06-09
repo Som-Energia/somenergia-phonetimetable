@@ -132,23 +132,24 @@ class Claims(object):
         claim_section_id = claimSectionID(
             self.erp, case.reason.split('.')[-1].strip()
         )
+
         data_crm = {
             'section_id': crm_section_id,
             'name': sectionName(self.erp, claim_section_id),
-            'description': case.observations,
             'canal_id': PHONE,
             'polissa_id': contractId(self.erp, case.contract),
             'partner_id': partner_id,
             'partner_address_id': partner_address.get('id'),
-            'state': 'done' if case.solved else 'open'
+            'state': 'done' if case.solved else 'open',
+            'user_id': ''
         }
+        crm_id = self.erp.CrmCase.create(data_crm).id
 
-        user_id = userId(self.erp, self.emails, case.person)
-        if user_id:
-            data_crm['user_id'] = user_id
-
-        crm_obj = self.erp.CrmCase
-        crm_id = crm_obj.create(data_crm).id
+        data_history = {
+            'case_id': crm_id,
+            'description': case.observations
+        }
+        crm_history_id = self.erp.CrmCaseHistory.create(data_history).id
 
         data_atc = {
             'provincia': partner_address.get('state_id')[0],
@@ -165,9 +166,11 @@ class Claims(object):
             'email_from': partner_address.get('email'),
             'time_tracking_id': COMERCIALIZADORA
         }
+        # user_id = userId(self.erp, self.emails, case.person)
+        # if user_id:
+        #     data_crm['create_uid'] = user_id
         data_atc['crm_id'] = crm_id
-        atc_obj = self.erp.GiscedataAtc
-        case = atc_obj.create(data_atc)
+        case = self.erp.GiscedataAtc.create(data_atc)
 
         return case.id
 
