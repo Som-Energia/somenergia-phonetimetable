@@ -925,15 +925,15 @@ class CallInfo_Test(unittest.TestCase):
                 origen: Telegestió
                 periode: 2.0DHA (P1)
               invoices:
-              - amount: 28.93
-                days_invoiced: 30
-                due_date: '2020-01-22'
-                energy_invoiced: 262
-                final_date: '2020-01-14'
-                initial_date: '2019-12-16'
-                invoice_date: '2020-01-18'
-                number: '...104'
-                payer: '... L.'
+              - amount: 65.88
+                days_invoiced: 33
+                due_date: '2020-01-17'
+                energy_invoiced: 286
+                final_date: '2019-12-15'
+                initial_date: '2019-11-13'
+                invoice_date: '2020-01-10'
+                number: '...042'
+                payer: '... Mª'
                 state: paid
             """)
 
