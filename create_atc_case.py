@@ -19,16 +19,24 @@ def main(yaml_directory, current_date):
 
     try:
         atc_yaml = ns.load(atc_yaml_path)
-        for person in atc_yaml:
-            for case in atc_yaml[person]:
-                case_id = claims.create_atc_case(case)
-                logging.info(" Case {} created.".format(case_id))
-
     except Exception as e:
-        logging.error(" Something went wrong in {}: {}".format(
+        logging.error(" Can't load file {}: {}".format(
             atc_yaml_file,
             str(e))
         )
+        return
+
+    for person in atc_yaml:
+        for case in atc_yaml[person]:
+            try:
+                case_id = claims.create_atc_case(case)
+                logging.info(" Case {} created.".format(case_id))
+            except Exception as e:
+                logging.error(" Something went wrong in {}: {}".format(
+                    atc_yaml_file,
+                    str(e))
+                )
+                logging.error(" CASE: {}".format(case))
 
 
 if __name__ == '__main__':
