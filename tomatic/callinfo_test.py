@@ -906,7 +906,7 @@ class CallInfo_Test(unittest.TestCase):
               last_invoiced: '2019-12-15'
               suspended_invoicing: false
               pending_state: 'Correct'
-              open_cases: [D1, D1, D1, D1]
+              open_cases: [D1, D1, D1]
               is_titular: true
               is_partner: false
               is_notifier: true
