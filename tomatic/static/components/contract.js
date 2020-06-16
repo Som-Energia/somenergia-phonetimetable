@@ -58,21 +58,11 @@ var contractCard = function(info, partner_id) {
       m('.label', "Adreça CUPS: "),
       info.cups_adress
     ),
-    m(".contract-info-item", [
-      m("", m(".label-right", (
-        info.generation ? m(".label-generation","Té Generation.") : ""
-      ))),
+    m(".contract-info-item",
       m("", m('.label', "Potència: "), info.power),
-    ]),
-    m(".contract-info-item", [
-      m("", m(".label-right", (
-        info.energetica ? m(".label-energetica","És Energetica.") : ""
-      ))),
+    ),
+    m(".contract-info-item",
       m("", m('.label', "Tarifa: "), info.fare),
-    ]),
-    m(
-      ".contract-info-item",
-      (info.suspended_invoicing ? m(".label-alert","Facturació suspesa.") : "")
     ),
     m(
       ".contract-info-item",
@@ -83,13 +73,6 @@ var contractCard = function(info, partner_id) {
       ".contract-info-item",
       m('.label', "Data última lectura facturada: "),
       last_invoiced
-    ),
-    m(
-      ".contract-info-item",
-      (info.open_cases.length > 0 ?
-        m(".label-alert", ["Casos ATR oberts: ", info.open_cases])
-        : ""
-      )
     ),
     m(".contract-info-item", [
       m(".label-right", [
@@ -129,6 +112,9 @@ var contractCard = function(info, partner_id) {
         )
       ),
     ]),
+    extraInfo(
+      info.generation, info.energetica, info.suspended_invoicing, info.open_cases
+    ),
     meterReadings(info.lectures_comptadors),
     lastInvoices(info.invoices),
   ]);
@@ -196,6 +182,48 @@ var lastInvoices = function(invoices) {
     )
   }
   return m(".factures", m(".factures-info", last_invoices));
+}
+
+var extraInfo = function(
+  generation, energetica, suspended_invoicing, open_cases
+) {
+  if (!generation && !energetica && !suspended_invoicing && open_cases.length == 0) {
+    info = m("no-info", "No hi ha informació extra.")
+  }
+  else {
+    info = m("", [
+      m("",
+        generation ? m(".label-generation","Té Generation.") : ""
+      ),
+      m("",
+        energetica ? m(".label-energetica","És Energetica.") : ""
+      ),
+      m("",
+        (suspended_invoicing ? m(".label-alert","Facturació suspesa.") : "")
+      ),
+      m("",
+        (open_cases.length > 0 ?
+          m(".label-alert", ["Casos ATR oberts: ", open_cases])
+          : ""
+        )
+      ),
+    ])
+  }
+  return m(Card, {
+    class: 'extra-info',
+    content: [
+      {
+        header: {
+          title: m(".title", "Altres:"),
+        },
+      },
+      {
+        text: {
+          content: info
+        }
+      }
+    ]
+  })
 }
 
 var buttons = function(info) {
