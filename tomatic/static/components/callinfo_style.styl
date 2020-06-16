@@ -1,8 +1,5 @@
 
 .callinfo
-    .header-callinfo
-        margin-top: 30px
-        margin-bottom: 10px
     .all-info-call
         display: inline-flex
         .plane-info
@@ -10,27 +7,6 @@
             left: 14.6%
             transform: translate(-50%)
             margin-top: 0.8%
-        .call-info
-            display: inline-flex
-        .card-motius
-            max-width: 570px
-            height: 680px
-            position: fixed
-            margin-top: 340px
-            left: 50%
-            transform: translate(-50%, -50%)
-            .pe-card__text
-                padding-bottom: 0px
-            .card-motius-title
-                display: flex
-                align-items: baseline
-                .motiu
-                    font-weight: bold
-                    margin-top: 5px
-                .filter
-                    margin-left: 10px
-                    .textfield-filter
-                        width: 445px
         .contracts
             position: fixed
             transform: translate(580px)
@@ -59,21 +35,6 @@
                 margin-right: 15px
                 min-width: 20px
                 margin-top: -5px
-    .motius
-        display: inline-block
-        background-color: #EEEEEE
-        width: 530px
-        height: 420px
-        overflow: auto
-        .pe-list-tile--disabled
-            .pe-list-tile__title
-                color: gray
-        .llista-motius-selected
-            font-size: 14px
-            background-color: #e6ffe6
-        .llista-motius-unselected
-            font-size: 14px
-            background-color: #eee
 
     .logs
         display: inline-block
@@ -103,51 +64,6 @@
             font-size: 14px
             color: red
             background-color: gainsboro
-
-    .tile-contracts
-        color: #502300
-        background-color: #F6F6F6
-
-    .alert-err
-        background-color: #F3F5F6
-        color: #000000
-        border: 1px solid #aaa
-        position: fixed
-        width: 300px
-        height: 100px
-        left: 30%
-        top: 30%
-        box-sizing: border-box
-        text-align: center
-
-    .final-motius
-        color: black
-        font-size: initial
-        margin-top: 10px
-        .textfield-comentaris
-            background-color: lemonchiffon
-            margin-top: 1px
-            display: inline-block
-            width: 530px
-    .checkboxes-and-save-btn
-        margin-top: 20px
-        .locked-text
-            display: inline-block
-            vertical-align: super
-            margin-top: -10px
-            color: darkgray
-            margin-right: 10px
-        .able-text
-            display: inline-block
-            vertical-align: super
-            margin-top: -10px
-            color: gray
-        .save
-            display: inline-block
-            position: absolute
-            right: 0
-            margin-right: 16px
-            margin-top: -10px
 
     .num-entrant
         display: inline-block
@@ -216,19 +132,6 @@
         option
             background-color: white
 
-    ::-webkit-scrollbar
-        width: 8px
-        height: 8px
-
-    ::-webkit-scrollbar-track
-        background: lightgrey
-
-    ::-webkit-scrollbar-thumb
-        background: dimgray
-
-    ::-webkit-scrollbar-thumb:hover
-        background: darkslategrey
-
     .partner-info
         margin-top: 10px
         margin-bottom: 10px
@@ -267,9 +170,6 @@
                 right: 0
                 position: absolute
                 color: #98FB98
-        .card-info
-            background-color: #FFFFFF
-            max-width: 570px
 
     .contract-info-box
         width: 500px
@@ -310,9 +210,6 @@
         th, td
           padding: 6px
 
-    .all-info
-        display: inline-block
-
     .icon-search
         font-size: 15px
 
@@ -324,7 +221,6 @@
         .pe-control__label
             font-size: 14px
             margin-left: -10px
-
 .tmt-header
     .login-buttons
         display: flex
@@ -435,6 +331,12 @@
       border-style: solid
       border-color: transparent transparent black transparent
 
+.tooltip:hover .tooltiptext
+  visibility: visible
+
+.tooltip:hover .tooltiptext-first
+  visibility: visible
+
 .factures
   background-color: lemonchiffon
   max-height: 170px
@@ -455,13 +357,6 @@
         float: right
         margin-right: 15px
 
-.tooltip:hover .tooltiptext
-  visibility: visible
-
-.tooltip:hover .tooltiptext-first
-  visibility: visible
-
-
 .card-motius
   .pe-dialog__content
     width: 580px
@@ -477,6 +372,7 @@
       margin-left: 10px
       .textfield-filter
           width: 445px
+
   .motius
     display: inline-block
     background-color: #EEEEEE
