@@ -786,7 +786,7 @@ def getClaims():
         error("File of claims does not exists")
 
     try:
-        dict = ns.load(CONFIG.claims_dict_file)
+        claims_dict = ns.load(CONFIG.claims_dict_file)
     except IOError:
         message = "error"
         error("File of claims dict does not exists")
@@ -794,7 +794,7 @@ def getClaims():
     result = ns(
         message=message,
         claims=claims,
-        dict=dict,
+        dict=claims_dict,
     )
     return yamlfy(info=result)
 

@@ -77,7 +77,7 @@ class Claims(object):
         config = ns.load('config.yaml')
 
         self.assign_user = config.assign_user
-        self.emails = config.emails
+        # self.emails = config.emails
 
     def get_claims(self):
         claims_model = self.erp.GiscedataSubtipusReclamacio
