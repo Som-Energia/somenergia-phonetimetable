@@ -59,4 +59,8 @@ forced: # Forced timetable slots, mapping "[day, time, line]: person". pe. "[dx,
   [dv, 1, 4]: ningu
   [dv, 2, 4]: ningu
 
-
+threshold_hits: 21
+assign_user: ASSIGNAR USUARI 
+claims_file: claims.yaml
+claims_dict_file: claims_dict.yaml
+my_calls_log: atc_cases/today_calls.yaml

@@ -121,3 +121,9 @@ call_reasons_document: Trucades_3354
 credential_name: drive-certificate.json
 threshold_hits: 21
 my_calls_log: my_calls_log.yaml
+
+threshold_hits: 21
+assign_user: ASSIGNAR USUARI 
+claims_file: claims.yaml
+claims_dict_file: claims_dict.yaml
+my_calls_log: atc_cases/today_calls.yaml
