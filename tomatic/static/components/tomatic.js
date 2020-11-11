@@ -132,7 +132,7 @@ Tomatic.editCell = function(day,houri,turni,name,myname) {
 		url: '/api/graella/'+([
 			Tomatic.grid().week,day,houri,turni,name
 			].join('/')),
-        data: myname,
+		body: myname,
 		extract: deyamlize,
 	})
 	.then( function(data) {

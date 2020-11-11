@@ -136,7 +136,7 @@ def graellaYaml(week):
         '<int:turni>/<name>', methods=['UPDATE'])
 @yamlerrors
 def editSlot(week, day, houri, turni, name):
-    myname = request.data.split('"')[1]
+    myname = request.data.decode().split('"')[1]
     graella = schedules.load(week)
     # TODO: Ensure day, houri, turni and name are in graella
     oldName = graella.timetable[day][int(houri)][int(turni)]

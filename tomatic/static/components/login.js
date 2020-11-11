@@ -3,6 +3,7 @@ module.exports = function() {
 
 var m = require('mithril');
 var jsyaml = require('js-yaml');
+var getCookie = require('./utils').getCookie;
 
 var Dialog = require('polythene-mithril-dialog').Dialog;
 var Button = require('polythene-mithril-button').Button;
@@ -17,6 +18,7 @@ var Login = {};
 var iden = "0";
 var websock = null;
 var port_ws = 0;
+var tomaticCookie = "tomaticCookie"
 
 function deyamlize(xhr) {
 	return jsyaml.safeLoad(xhr.responseText);
@@ -48,8 +50,8 @@ Login.myName = function() {
 }
 
 Login.logout = function(){
-    document.cookie = "; expires = Thu, 01 Jan 1970 00:00:00 GMT;path=/";
-	sendIdentification();
+    document.cookie = tomaticCookie + "=; expires = Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+	// sendIdentification();
 }
 
 function sendIdentification() {
@@ -96,20 +98,16 @@ Date.prototype.addHours = function(h) {
 
 
 var getMyExt = function() {
-    var cookie = document.cookie;
-    if (cookie === undefined) return cookie;
-    if (cookie === "") return cookie;
-    console.log(cookie);
-    return cookie.split(":")[1].toString();
+    var cookie_value = getCookie(tomaticCookie);
+    if (cookie_value === ":") return "";
+    return cookie_value.split(":")[1].toString();
 }
 
 
 var setCookieInfo = function(vnode){
-    var aux = vnode.attributes;
-    var name_button = aux["0"].ownerElement.innerText;
+    var name_button = vnode.target.innerText;
     var persons = Tomatic.persons().extensions;
     var found = false;
-
     for(id in persons){
         var name = Tomatic.formatName(id);
         if(name.toUpperCase() == name_button) {
@@ -121,9 +119,9 @@ var setCookieInfo = function(vnode){
         var value = id + ":" + Tomatic.persons().extensions[id] + ":" + Tomatic.persons().colors[id];
         var exp = new Date().addHours(3);
         var expires = "expires="+ exp.toUTCString();
-        document.cookie = value + ";" + expires + ";path=/";
+        document.cookie = tomaticCookie + "=" + value + ";" + expires + ";path=/";
     }
-    sendIdentification();
+    // sendIdentification();
 }
 
 
@@ -141,13 +139,14 @@ var listOfPersons = function() {
             continue;
         }
         aux.push(m(Button, {
+            id: id,
             className: 'btn-list',
             label: name,
             border: true,
             style: { backgroundColor: color },
             events: {
-                onclick: function() {
-                    setCookieInfo(this);
+                onclick: function(id) {
+                    setCookieInfo(id);
                     Dialog.hide({id:'whoAreYou'});
                 },
             },
@@ -179,9 +178,8 @@ Login.askWhoAreYou = function() {
     };},{id:'whoAreYou'});
 }
 
-
 var whoAreYou = function() {
-    var cookie = document.cookie;
+    var cookie = getCookie(tomaticCookie);
     return (cookie === "" ? ":" : cookie);
 }
 

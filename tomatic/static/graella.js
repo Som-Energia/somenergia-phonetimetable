@@ -32,6 +32,7 @@ var css = require('polythene-css');
 var customStyle = require('./style.styl');
 
 var CallInfo = require('./components/callinfo');
+var getCookie = require('./components/utils').getCookie;
 
 css.addLayoutStyles();
 css.addTypography();
@@ -361,7 +362,6 @@ var Grid = function(grid) {
 	var editCell = function(day, houri, turni) {
 		var setPerson = function(name) {
 			var myname = Login.myName();
-			console.log(myname);
 			Tomatic.editCell(day, houri, turni, name, myname)
 			Dialog.hide({id:'GridCellEditor'});
 		};
@@ -400,7 +400,7 @@ var Grid = function(grid) {
 		return m('td', {
 			class: name||'ningu',
 			onclick: function(ev) {
-				if(document.cookie===""){
+				if(getCookie("tomaticCookie")===":"){
 					Login.askWhoAreYou();
 				}
 				else {
