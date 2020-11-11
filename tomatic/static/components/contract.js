@@ -1,7 +1,6 @@
 module.exports = function() {
 
 var m = require('mithril');
-var jsyaml = require('js-yaml');
 
 var Ripple = require('polythene-mithril-ripple').Ripple;
 var Card = require('polythene-mithril-card').Card;

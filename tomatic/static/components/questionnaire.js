@@ -1,7 +1,7 @@
 module.exports = function() {
 
 var m = require('mithril');
-var jsyaml = require('js-yaml');
+var deyamlize = require('./utils').deyamlize;
 
 var Ripple = require('polythene-mithril-ripple').Ripple;
 var Dialog = require('polythene-mithril-dialog').Dialog;
@@ -47,7 +47,7 @@ var getClaims = function() {
   m.request({
       method: 'GET',
       url: '/api/getClaims',
-      deserialize: jsyaml.load,
+      extract: deyamlize,
   }).then(function(response){
       console.debug("Info GET Response: ",response);
       if (response.info.message !== "ok" ) {
@@ -63,12 +63,13 @@ var getClaims = function() {
   });
 };
 getClaims();
+Questionnaire.getClaims = getClaims();
 
 var postClaim = function(info) {
   m.request({
     method: 'POST',
     url: '/api/atrCase',
-    deserialize: jsyaml.load,
+    extract: deyamlize,
     data: info
   }).then(function(response){
     console.debug("Info GET Response: ",response);
@@ -90,7 +91,7 @@ var postReclama = function(claim) {
     method: 'POST',
     url: '/api/claimReasons',
     data: claim,
-    deserialize: jsyaml.load,
+    extract: deyamlize,
   }).then(function(response){
     console.debug("Info POST Response: ",response);
     if (response.info.message !== "ok" ) {
@@ -107,7 +108,7 @@ var postInfo = function(phone, info) {
     method: 'POST',
     url: '/api/infoReasons',
     data: info,
-    deserialize: jsyaml.load,
+    extract: deyamlize,
   }).then(function(response){
     console.debug("Info POST Response: ",response);
     if (response.info.message !== "ok" ) {
@@ -137,7 +138,7 @@ var updateCall = function(date, partner_number, contract_number) {
         method: 'POST',
         url: '/api/' + 'updatelog/'+ Questionnaire.call.ext,
         data: info,
-        deserialize: jsyaml.load,
+        extract: deyamlize,
     }).then(function(response){
         console.debug("Info POST Response: ",response);
         if (response.info.message !== "ok") {

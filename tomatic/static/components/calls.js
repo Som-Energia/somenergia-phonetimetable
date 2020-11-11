@@ -1,7 +1,7 @@
 module.exports = function() {
 
 var m = require('mithril');
-var jsyaml = require('js-yaml');
+var deyamlize = require('./utils').deyamlize;
 
 var Ripple = require('polythene-mithril-ripple').Ripple;
 var Dialog = require('polythene-mithril-dialog').Dialog;
@@ -24,7 +24,7 @@ Calls.getLog = function(phone) {
   m.request({
     method: 'GET',
     url: '/api/log/'+phone,
-    deserialize: jsyaml.load,
+    extract: deyamlize,
   }).then(function(response){
     console.debug("Info GET Response: ", response);
     if (response.info.message !== "ok" ) {

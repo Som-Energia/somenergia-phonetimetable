@@ -2,7 +2,7 @@ module.exports = function() {
 
 var m = require('mithril');
 var RaisedButton = require('polythene-mithril-raised-button').RaisedButton;
-var jsyaml = require('js-yaml');
+var deyamlize = require('./utils').deyamlize;
 
 var Uploader = {
 	oninit: function(vnode) {
@@ -15,7 +15,7 @@ var Uploader = {
 				url: vnode.attrs.url,
 				data: formData,
 				serialize: function(value) {return value},
-				deserialize: jsyaml.load,
+				extract: deyamlize,
 			}).then(vnode.attrs.onupload, vnode.attrs.onerror);
 		};
 	},
