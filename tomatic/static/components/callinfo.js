@@ -81,7 +81,7 @@ var updateClaims = function() {
     }
     else{
       actualitzant_reclamacions = false;
-      getClaims();
+      Questionnaire.getClaims;
     }
   }, function(error) {
     console.debug('Info GET apicall failed: ', error);
