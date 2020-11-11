@@ -165,7 +165,7 @@ var atencionsLog = function() {
       }
       aux.push(m("div", {"class":"tooltip"}, [
         m(ListTile, {
-          class: "registres",
+          className: "registres",
           compact: true,
           selectable: false,
           title: missatge,
@@ -176,7 +176,7 @@ var atencionsLog = function() {
     }
     else {
       aux.push(m(ListTile, {
-        class: "registres-red",
+        className: "registres-red",
         compact: true,
         selectable: true,
         ink: true,
@@ -207,7 +207,7 @@ var atencionsLog = function() {
   }
   if (log_calls.length === 0) {
     aux[0] = m(ListTile, {
-      class: "registres",
+      className: "registres",
       compact: true,
       title: "Cap trucada al registre.",
     });
@@ -236,7 +236,7 @@ var atencionsLog = function() {
 
   if (log_calls.length === 0) {
     aux[0] = m(ListTile, {
-      class: "registres",
+      className: "registres",
       compact: true,
       title: "Cap trucada al registre.",
     });
@@ -255,7 +255,7 @@ var atencionsLog = function() {
       }
       aux.push(m("div", {"class":"tooltip"}, [
         m(ListTile, {
-          class: "registres",
+          className: "registres",
           compact: true,
           selectable: false,
           title: missatge,
@@ -266,7 +266,7 @@ var atencionsLog = function() {
     }
     else {
       aux.push(m(ListTile, {
-        class: (
+        className: (
           Questionnaire.call.date == missatge.split(')')[0].substr(1) ?
           "registres-red-selected" : "registres-red"
         ),
@@ -302,7 +302,7 @@ var atencionsLog = function() {
 
 var logPerson = function() {
   return m(Card, {
-    class: 'card-log-person',
+    className: 'card-log-person',
     content: [
       { primary: {
         title: m(".title", [ 'Trucades ateses:' ])
@@ -393,7 +393,7 @@ var lockCall = function() {
       m(".label-text", "Número: "),
       m(".normal-text", Questionnaire.call['phone']),
       m(Button, {
-        class: 'btn-lock',
+        className: 'btn-lock',
         label: (refresh ? lockIcon() : lockedIcon()),
         border: 'true',
         events: {
@@ -403,7 +403,7 @@ var lockCall = function() {
         },
       }, m(Ripple)),
       m(Button, {
-        class: "btn-new-tab",
+        className: "btn-new-tab",
         label: newTabIcon(),
         url: {
           href: window.location,
@@ -420,7 +420,7 @@ var typeOfSearch = function() {
   return m("select",
     {
       id: "search-by",
-      class: ".select-search",
+      className: ".select-search",
       onchange: function() {
         search_by = document.getElementById("search-by").value;
       },
@@ -442,7 +442,7 @@ var kalinfoBrowser = function() {
       typeOfSearch(),
       m(".label", "Cercador: "),
       m(Textfield, {
-        class: 'txtf-phone',
+        className: 'txtf-phone',
         onChange: function(state) {
           CallInfo.search = state.value;
         },
@@ -454,7 +454,7 @@ var kalinfoBrowser = function() {
         disabled: !refresh,
       }),
       m(Button, {
-        class: 'btn-search',
+        className: 'btn-search',
         label: searchIcon(),
         events: {
           onclick: function() {
@@ -482,7 +482,7 @@ var settingsDialog = function() {
     backdrop: true,
     body: [
       m(Button, {
-        class: 'btn-refresh',
+        className: 'btn-refresh',
         label: refreshIcon(),
         border: 'true',
         disabled: actualitzant_reclamacions,
@@ -512,7 +512,7 @@ var settingsDialog = function() {
 
 var settings = function() {
   return m(Button, {
-    class: 'btn-settings',
+    className: 'btn-settings',
     label: settingsIcon(),
     border: 'true',
     events: {

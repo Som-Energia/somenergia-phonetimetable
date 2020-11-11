@@ -45,14 +45,14 @@ var llistaLog = function() {
   for(var i = history.length-1; i>=0; i--) {
     var missatge = history[i][1] + " (" + history[i][0] + "): " + history[i][3];
     aux.push(m(ListTile, {
-      class: "registres",
+      className: "registres",
       compact: true,
       title: missatge,
     }));
   }
   if (history.length === 0) {
     aux[0] = m(ListTile, {
-      class: "registres",
+      className: "registres",
       compact: true,
       title: "No hi ha cap registre",
     });
@@ -62,7 +62,7 @@ var llistaLog = function() {
 
 Calls.logCalls = function() {
   return m(Card, {
-    class: 'card-log',
+    className: 'card-log',
     content: [
       { primary: { title: m(".title", 'Històric:') } },
       { text: {

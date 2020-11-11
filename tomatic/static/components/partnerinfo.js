@@ -92,7 +92,7 @@ var specificPartnerCard = function(partner, button) {
       }),
     ]),
     m(Card, {
-      class: 'card-info',
+      className: 'card-info',
       content: [
         { text: {
           content: m("", [

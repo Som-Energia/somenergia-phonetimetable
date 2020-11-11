@@ -208,7 +208,7 @@ var llistaMotius = function() {
     indentedBorder: true,
     tiles: filtered.map(function(reason) {
       return m(ListTile, {
-        class: (Questionnaire.call.reason === reason ?
+        className: (Questionnaire.call.reason === reason ?
           "llista-motius-selected" :
           "llista-motius-unselected"),
         compact: true,
@@ -322,7 +322,7 @@ Questionnaire.motiu = function(main_contract, partner_id) {
     return m("", [
       m("p", "Tipus: "),
       m(Checkbox, {
-        class: "checkbox",
+        className: "checkbox",
         name: 'proc',
         checked: reclamacio.proc,
         label: "Procedente",
@@ -333,7 +333,7 @@ Questionnaire.motiu = function(main_contract, partner_id) {
       }),
       m("br"),
       m(Checkbox, {
-        class: "checkbox",
+        className: "checkbox",
         name: 'improc',
         checked: reclamacio.improc,
         label: "Improcedente",
@@ -344,7 +344,7 @@ Questionnaire.motiu = function(main_contract, partner_id) {
       }),
       m("br"),
       m(Checkbox, {
-        class: "checkbox",
+        className: "checkbox",
         name: 'noproc',
         checked: (!reclamacio.improc && !reclamacio.proc),
         label: "No gestionable",
@@ -360,7 +360,7 @@ Questionnaire.motiu = function(main_contract, partner_id) {
     return m("", [
       m("p", "S'ha resolt?"),
       m(Checkbox, {
-        class: "checkbox",
+        className: "checkbox",
         name: 'solved-yes',
         checked: reclamacio.solved,
         label: "Sí",
@@ -370,7 +370,7 @@ Questionnaire.motiu = function(main_contract, partner_id) {
       }),
       m("br"),
       m(Checkbox, {
-        class: "checkbox",
+        className: "checkbox",
         name: 'solved-no',
         checked: !reclamacio.solved,
         label: "No",
@@ -435,7 +435,7 @@ Questionnaire.motiu = function(main_contract, partner_id) {
     title: m(".card-motius-title", [
       m(".motiu", 'Motiu: '),
       m(".filter", m(Textfield, {
-        class: "textfield-filter",
+        className: "textfield-filter",
         label: "Escriure per filtrar",
         value: reason_filter,
         dense: true,
@@ -451,7 +451,7 @@ Questionnaire.motiu = function(main_contract, partner_id) {
         m(".final-motius", [
           m("strong", "Comentaris:"),
           m(Textfield, {
-            class: "textfield-comentaris",
+            className: "textfield-comentaris",
             label: "Especifica més informació",
             multiLine: true,
             rows: 2,
@@ -476,7 +476,7 @@ Questionnaire.motiu = function(main_contract, partner_id) {
         raised: true,
       }),
       m(Button, {
-        class: "save",
+        className: "save",
         label: desar,
         events: {
           onclick: function() {

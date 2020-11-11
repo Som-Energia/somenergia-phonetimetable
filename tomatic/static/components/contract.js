@@ -209,7 +209,7 @@ var extraInfo = function(
     ])
   }
   return m(Card, {
-    class: 'extra-info',
+    className: 'extra-info',
     content: [
       {
         header: {
@@ -268,7 +268,7 @@ var specificContractCard = function(contract, button, partner_id) {
       }),
     ]),
     m(Card, {
-      class: 'card-info',
+      className: 'card-info',
       content: [
         { text: {
           content: m("", [
