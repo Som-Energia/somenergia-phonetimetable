@@ -63,3 +63,6 @@ target/
 *~
 #credentials
 drive-certificate.json
+
+# callinfo
+claims.yaml
