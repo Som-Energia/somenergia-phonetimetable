@@ -5,7 +5,7 @@ tomatic:
 
     carregues:
       script: SOME_SRC/somenergia-tomatic/runhere SOME_SRC/somenergia-tomatic/ ./tomatic_shiftload.py {monday} --clusterize --lines {numberOfLines} --weekshifts {load}
-      title: Generació de càrregues setmanals
+      title: Graelles: Generació de càrregues setmanals
       description: >
         Resum de les trucades rebudes del dia.
       parameters:
@@ -24,7 +24,7 @@ tomatic:
 
     retireold:
       script: curl -q http://192.168.35.244:4555/api/graella/retireold
-      title: Retira les graelles antigues
+      title: Graelles: Retira les graelles antigues
       description: >
         Amaga les graelles antigues conservant només la de la setmana anterior.
         Les sobrecarregues de les graelles retirades es conservaran
@@ -32,7 +32,7 @@ tomatic:
 
     explainBusy:
       script: SOME_SRC/somenergia-tomatic/runhere SOME_SRC/somenergia-tomatic/ ./tomatic_busy.py {monday} --required
-      title: Resum d'indisponibilitats per torn
+      title: Graelles: Resum d'indisponibilitats per torn
       description: >
         Explica quanta gent hi ha indisponible a cada torn i perquè.
         Atencio, només funciona amb setmanes amb càrrega ja generada.
@@ -43,27 +43,47 @@ tomatic:
 
     queuestatus:
       script: SOME_SRC/somenergia-tomatic/runhere SOME_SRC/somenergia-tomatic/ ./tomatic_rtqueue.py status
-      title: Estat de la centraleta
+      title: Centraleta: Estat de la centraleta
       description: >
         Mostra l'estat dels operadors del torn actual
 
     resum:
       script: SOME_SRC/somenergia-tomatic/tomatic_calls.py  summary
-      title: Resum de trucades del dia
+      title: Centraleta: Resum de trucades del dia
       description: >
         Resum de les trucades rebudes del dia.
 
     perdudes:
       script: SOME_SRC/somenergia-tomatic/tomatic_calls.py  unanswered
-      title: Detall de trucades fallides del dia
+      title: Centraleta: Detall de trucades fallides del dia
       description: >
         Un llistat bastan cru de les trucades fallides del dia
 
     detall:
       script: SOME_SRC/somenergia-tomatic/tomatic_calls.py all
-      title: Detall de totes les trucades del dia
+      title: Centraleta: Detall de totes les trucades del dia
       description: >
         Un llistat bastan cru de totes les trucades del dia
+
+    reloadqueue:
+      script: SOME_SRC/somenergia-tomatic/tomatic_rtqueue.py set
+      title: Centraleta: Recarrega el torn de telefon actual (amb cura!)
+      description: >
+        Fer servir amb cura!!!!
+        Aquest script programa la centraleta per a que les trucades
+        arribin a les persones que estan a la graella.
+        Normalment es crida automáticament cada canvi de torn.
+        Fer servir només en cas de que la cua hagi quedat moolt malmessa.
+
+    reloadextensions:
+      script: SOME_SRC/somenergia-tomatic/tomatic_extensions.py load
+      title: Centraleta: Recarrega les extensions
+      description: >
+        Fer servir amb cura!!!! Es possible que talli trucades.
+        Aquest script actualitza les extensions assignades a cada
+        persona. Normalment es crida automaticament cada divendres a la tarda.
+        Fer servir només quan es canvia alguna extensió o si es creen usuaris nous
+        i no es poden esperar a divendres.
 
     says:
       script: SOME_SRC/somenergia-tomatic/runhere SOME_SRC/somenergia-tomatic/ ./tomatic_says.sh  -c "{qui}" {quelcom}

@@ -4,8 +4,6 @@ module.exports = function() {
     var m = require('mithril');
 
 	m.prop = require('mithril/stream');
-	m.component=m;
-
 
     var Select = {
 		oninit: function(vnode) {

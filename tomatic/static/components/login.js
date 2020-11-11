@@ -18,11 +18,15 @@ var iden = "0";
 var websock = null;
 var port_ws = 0;
 
+function deyamlize(xhr) {
+	return jsyaml.safeLoad(xhr.responseText);
+}
+
 var getServerSockInfo = function() {
     m.request({
         method: 'GET',
         url: '/api/socketInfo',
-        deserialize: jsyaml.load,
+        extract: deyamlize,
     }).then(function(response){
         console.debug("Info GET Response: ",response);
         if (response.info.message !== "ok" ) {

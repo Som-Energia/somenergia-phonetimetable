@@ -7,6 +7,10 @@ var jsyaml = require('js-yaml');
 var m = require('mithril');
 m.prop = require('mithril/stream');
 
+function deyamlize(xhr) {
+	return jsyaml.safeLoad(xhr.responseText);
+}
+
 var Tomatic = {
 };
 
@@ -18,10 +22,10 @@ Tomatic.init = function() {
 	this.requestPersons();
 };
 Tomatic.requestPersons = function() {
-	m.request({
+	return m.request({
 		method: 'GET',
 		url: '/api/persons',
-		deserialize: jsyaml.load,
+		extract: deyamlize,
 	}).then(function(response){
 		if (response.persons!==undefined) {
 			Tomatic.persons(response.persons);
@@ -36,7 +40,7 @@ Tomatic.requestQueue = function(suffix) {
 	m.request({
 		method: 'GET',
 		url: '/api/queue'+(suffix||''),
-		deserialize: jsyaml.load,
+		extract: deyamlize,
 	}).then(function(response){
 		if (response.currentQueue!==undefined) {
 			Tomatic.queue(response.currentQueue);
@@ -70,7 +74,7 @@ Tomatic.requestGrid = function(week) {
 	m.request({
 		method: 'GET',
 		url: '/api/graella-'+week+'.yaml',
-		deserialize: jsyaml.load,
+		extract: deyamlize,
 	}).then(function(data) {
 		data.days = data.days || 'dl dm dx dj dv'.split(' ');
 		delete data.colors;
@@ -129,7 +133,7 @@ Tomatic.editCell = function(day,houri,turni,name,myname) {
 			Tomatic.grid().week,day,houri,turni,name
 			].join('/')),
         data: myname,
-		deserialize: jsyaml.load,
+		extract: deyamlize,
 	})
 	.then( function(data) {
 		Tomatic.requestGrid(Tomatic.grid().week);
@@ -173,7 +177,7 @@ Tomatic.setPersonData = function (name, data) {
 		method: 'POST',
 		url: '/api/person/'+name,
 		data: postdata,
-		deserialize: jsyaml.load,
+		extract: deyamlize,
 	})
 	.then( function(data) {
 		Tomatic.requestPersons();
@@ -191,7 +195,7 @@ Tomatic.requestWeeks = function() {
 	m.request({
 		method: 'GET',
 		url: '/api/graella/list',
-		deserialize: jsyaml.load,
+		extract: deyamlize,
 	}).then(function(newWeeklist){
 		var weeks = newWeeklist.weeks.sort().reverse();
 		Tomatic.weeks(weeks);
@@ -236,7 +240,7 @@ Tomatic.sendBusyData = function(name, data) {
 		method: 'POST',
 		url: '/api/busy/'+name,
 		data: data,
-		deserialize: jsyaml.load,
+		extract: deyamlize,
 	}).then(function(response){
 		console.debug("Busy POST Response: ",response);
 		if (response.result==='ok') { return; }
@@ -255,7 +259,7 @@ Tomatic.retrieveBusyData = function(name, callback) {
 	m.request({
 		method: 'GET',
 		url: '/api/busy/'+name,
-		deserialize: jsyaml.load,
+		extract: deyamlize,
 	}).then(function(response){
 		console.debug("Busy GET Response: ",response);
 		callback(response);

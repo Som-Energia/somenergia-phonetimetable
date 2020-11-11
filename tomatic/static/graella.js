@@ -60,39 +60,37 @@ var Doc = function(message) {
 
 var QueueWidget = {
 	oninit: function(vnode) {
-		vnode.state = {
-			addtoqueue: function(ev) {
-				Dialog.show({
-					id: 'QueuePersonPicker',
-					title: 'Obre una nova línia amb:',
-					backdrop: true,
-					body: [
-						m(PersonPicker, {
-							id:'QueuePersonPicker',
-							onpick: function(name) {
+		vnode.state.addtoqueue = function(ev) {
+			Dialog.show({
+				id: 'QueuePersonPicker',
+				title: 'Obre una nova línia amb:',
+				backdrop: true,
+				body: [
+					m(PersonPicker, {
+						id:'QueuePersonPicker',
+						onpick: function(name) {
+							Dialog.hide({id: 'QueuePersonPicker'});
+							Tomatic.addLine(name);
+						}
+					}),
+				],
+				footerButtons: [
+					m(Button, {
+						label: "Tanca",
+						events: {
+							onclick: function() {
 								Dialog.hide({id: 'QueuePersonPicker'});
-								Tomatic.addLine(name);
-							}
-						}),
-					],
-					footerButtons: [
-						m(Button, {
-							label: "Tanca",
-							events: {
-								onclick: function() {
-									Dialog.hide({id: 'QueuePersonPicker'});
-								},
 							},
-						}),
-					],
-				}, {id: 'QueuePersonPicker'});
-			},
-			resume: function(line, ev) {
-				Tomatic.restoreLine(line);
-			},
-			pause: function(line, ev) {
-				Tomatic.pauseLine(line);
-			},
+						},
+					}),
+				],
+			}, {id: 'QueuePersonPicker'});
+		};
+		vnode.state.resume = function(line, ev) {
+			Tomatic.restoreLine(line);
+		};
+		vnode.state.pause = function(line, ev) {
+			Tomatic.pauseLine(line);
 		};
 	},
 	view: function(vnode) {
@@ -117,18 +115,15 @@ var QueueWidget = {
 };
 var PersonPicker = {
 	oninit: function(vnode) {
-		var c = {
-			onpick: vnode.attrs.onpick,
-			nobodyPickable: vnode.attrs.nobodyPickable,
-			person: m.prop(undefined),
-			picked: function(name, ev) {
-				vnode.state.person(name);
-				if (vnode.attrs.onpick) {
-					vnode.attrs.onpick(name);
-				}
-			},
+		vnode.state.onpick = vnode.attrs.onpick;
+		vnode.state.nobodyPickable = vnode.attrs.nobodyPickable;
+		vnode.state.person = m.prop(undefined);
+		vnode.state.picked = function(name, ev) {
+			vnode.state.person(name);
+			if (vnode.attrs.onpick) {
+				vnode.attrs.onpick(name);
+			}
 		};
-		vnode.state=c;
 	},
 	view: function(vnode) {
 		var pickCell = function(name) {
@@ -149,11 +144,9 @@ var PersonPicker = {
 
 var WeekList = {
 	oninit: function(vnode) {
-		vnode.state = {
-			model: this,
-			setCurrent: function(week) {
-				Tomatic.requestGrid(week);
-			},
+		vnode.state.model = this;
+		vnode.state.setCurrent = function(week) {
+			Tomatic.requestGrid(week);
 		};
 	},
 	view: function(c) {
@@ -652,8 +645,8 @@ const applicationPages = [
 var tabs = applicationPages.map(function(name) {
     return {
         label: name,
+		element: m.route.Link,
         url: {
-            oncreate: m.route.link,
             href: '/'+name
         },
     };
