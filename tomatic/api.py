@@ -8,13 +8,12 @@ from flask import (
     send_file,
     )
 from datetime import datetime, timedelta
-from threading import Semaphore, Thread
+from threading import Semaphore
 import os.path
 import urllib.parse
 import decorator
 import erppeek
 from pathlib2 import Path
-from websocket_server import WebsocketServer
 from sheetfetcher import SheetFetcher
 from yamlns import namespace as ns
 from consolemsg import error, step, warn
@@ -32,7 +31,7 @@ except ImportError:
 packagedir = Path(__file__).parent
 staticpath = packagedir/'dist'
 schedules = schedulestorage.Storage.default()
-websockets = {}
+
 
 def fillConfigurationInfo():
     return ns.load('config.yaml')
@@ -88,7 +87,6 @@ except ImportError:
 from .planner_api import api as Planner
 
 app = Flask(__name__)
-app.wserver = None
 app.drive_semaphore = Semaphore()
 app.register_blueprint(Planner, url_prefix='/api/planner')
 
@@ -488,7 +486,7 @@ def callingPhone():
     data = request.form.to_dict()
     phone = data['phone']
     ext = data['ext']
-    clients = websockets.get(ext, [])
+    clients = app.websocket_kalinfo_server.websockets.get(ext, [])
     time = datetime.now().strftime('%m-%d-%Y %H:%M:%S')
 
     if not os.path.exists('atc_cases'):
@@ -521,7 +519,7 @@ def callingPhone():
     if not clients:
         error("Calling {} but has no client.", ext)
     for client in clients:
-        app.wserver.send_message(client, "PHONE:" + phone + ":" + time)
+        app.websocket_kalinfo_server.wserver.send_message(client, "PHONE:" + phone + ":" + time)
     result = ns(
         notified=len(clients),
         phone=phone,
@@ -537,65 +535,6 @@ def getConnectionInfo():
         message="ok"
     )
     return yamlfy(info=result)
-
-
-def initialize_client(client, server, extension):
-    client_left(client, server)
-    step("Identifying client as {}", extension)
-    if extension not in websockets:
-        websockets[extension] = []
-    websockets[extension].append(client)
-
-
-def say_new_user_logged(client, server, extension, iden):
-    step("Saying to the page that now {} is there", iden)
-    clients = websockets.get(extension, [])
-    if not clients:
-        error("Trying to send message to {} but has no client.", extension)
-    for client in clients:
-        app.wserver.send_message(client, "IDEN:" + iden)
-
-
-def say_logcalls_has_changed(extension):
-    clients = websockets.get(extension, [])
-    if not clients:
-        error("Trying to send message to {} but has no client.", extension)
-    for client in clients:
-        app.wserver.send_message(client, "REFRESH:" + extension)
-
-
-def on_message_recieved(client, server, message):
-    divided_message = message.split(":")
-    type_of_message = divided_message[0]
-    if type_of_message == "IDEN":
-        extension = divided_message[1]
-        iden = divided_message[2]
-        initialize_client(client, server, extension)
-        say_new_user_logged(client, server, extension, iden)
-    else:
-        error("Type of message not recognized.")
-
-
-def client_left(client, server):
-    for extension in websockets:
-        if client in websockets[extension]:
-            step("Unidentifying client as {}", extension)
-            websockets[extension].remove(client)
-            break
-    else:
-        warn("New client")
-
-
-def startCallInfoWS(app, host):
-    app.wserver = WebsocketServer(
-        host=host,
-        port=CONFIG.websocket_port,
-    )
-    app.wserver.set_fn_message_received(on_message_recieved)
-    app.wserver.set_fn_client_left(client_left)
-    thread = Thread(target=app.wserver.run_forever)
-    thread.start()
-    return thread
 
 
 @app.route('/api/callReasons/<info_type>', methods=['GET'])

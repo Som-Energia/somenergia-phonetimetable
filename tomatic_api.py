@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import print_function
-from tomatic.api import app, pbx, startCallInfoWS
+from tomatic.api import app, pbx
+from tomatic.tomatic_websockets import WebSocketTomaticServer
 import click
 from consolemsg import warn, step
 from tomatic import __version__
@@ -56,15 +57,15 @@ def main(fake, debug, host, port, printrules, ring):
 
     if ring:
         step("Starting WS thread")
-        wsthread = startCallInfoWS(app, host=host)
+        app.websocket_kalinfo_server = WebSocketTomaticServer()
+        app.websocket_kalinfo_server.startCallInfoWS(host=host)
     step("Starting API")
     for rule in app.url_map.iter_rules():
         step("- {}", rule)
     app.run(debug=debug, host=host, port=port, processes=1)
     step("API stopped")
     if ring:
-        app.wserver.server_close()
-        wsthread.join(0)
+        app.websocket_kalinfo_server.stopCallInfoWS()
         step("WS thread stopped")
 
 if __name__=='__main__':
