@@ -41,7 +41,7 @@ var getServerSockInfo = function() {
         console.debug('Info GET apicall failed WebSock: ', error);
     });
 }
-getServerSockInfo();
+// getServerSockInfo();
 
 Login.myName = function() {
     info = whoAreYou();
