@@ -752,11 +752,9 @@ def postAtrCase():
         today.day if today.day//10 != 0 else "0{}".format(today.day),
     )
     if not os.path.isfile(file_name):
-        f = open(file_name, "w+")
-        f.close()
-        atc_cases = ns()
-    else:
-        atc_cases = ns.load(file_name)
+        with open(file_name, "w+"): pass
+
+    atc_cases = ns.load(file_name) or ns()
 
     if atc_info.person not in atc_cases:
         atc_cases[atc_info.person] = []
