@@ -70,7 +70,7 @@ var postClaim = function(info) {
     method: 'POST',
     url: '/api/atrCase',
     extract: deyamlize,
-    data: info
+    body: info
   }).then(function(response){
     console.debug("Info GET Response: ",response);
     if (response.info.message !== "ok" ) {
@@ -137,7 +137,7 @@ var updateCall = function(date, partner_number, contract_number) {
     m.request({
         method: 'POST',
         url: '/api/' + 'updatelog/'+ Questionnaire.call.ext,
-        data: info,
+        body: info,
         extract: deyamlize,
     }).then(function(response){
         console.debug("Info POST Response: ",response);
