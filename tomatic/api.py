@@ -679,7 +679,7 @@ def updateMyLog(ext):
                 logs[ext].insert(i, info)
                 break
         logs.dump(CONFIG.my_calls_log)
-        say_logcalls_has_changed(ext)
+        app.websocket_kalinfo_server.say_logcalls_has_changed(ext)
     except ValueError:
         msg = 'error_update_log'
         error("[U] Opening file {}: unexpected", CONFIG.my_calls_log)
