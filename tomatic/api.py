@@ -767,4 +767,23 @@ def postAtrCase():
         message="ok"
     ))
 
+
+@app.route('/api/getInfos', methods=['GET'])
+def getInfos():
+    message = 'ok'
+    infos = []
+    try:
+        with open(CONFIG.info_cases, "r") as f:
+            infos = f.read().splitlines()
+    except IOError:
+        message = "error"
+        error("File of infos does not exist")
+
+    result = ns(
+        message=message,
+        infos=infos,
+    )
+    return yamlfy(info=result)
+
+
 # vim: ts=4 sw=4 et

@@ -65,6 +65,30 @@ var getClaims = function() {
 getClaims();
 Questionnaire.getClaims = getClaims();
 
+var getInfos = function() {
+  m.request({
+      method: 'GET',
+      url: '/api/getInfos',
+      extract: deyamlize,
+  }).then(function(response){
+      console.debug("Info GET Response: ",response);
+      if (response.info.message !== "ok" ) {
+          console.debug("Error al obtenir els infos: ", response.info.message)
+      }
+      else{
+        console.log(response.info)
+        // call_reasons.general = response.info.claims;
+        // extras_dict = response.info.dict;
+        // call_reasons.extras = Object.keys(response.info.dict);
+      }
+  }, function(error) {
+      console.debug('Info GET apicall failed: ', error);
+  });
+};
+getInfos();
+Questionnaire.getInfos = getInfos();
+
+
 var postClaim = function(info) {
   m.request({
     method: 'POST',
