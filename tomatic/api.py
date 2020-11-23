@@ -786,4 +786,32 @@ def getInfos():
     return yamlfy(info=result)
 
 
+@app.route('/api/infoCase', methods=['POST'])
+def postInfoCase():
+
+    info = ns.loads(request.data)
+
+    today = datetime.today()
+    file_name = "info_cases/{}{}{}.yaml".format(
+        today.year,
+        today.month if today.month//10 != 0 else "0{}".format(today.month),
+        today.day if today.day//10 != 0 else "0{}".format(today.day),
+    )
+    if not os.path.isfile(file_name):
+        with open(file_name, "w+"): pass
+
+    info_cases = ns.load(file_name) or ns()
+
+    if info.person not in info_cases:
+        info_cases[info.person] = []
+
+    info_cases[info.person].append(info)
+
+    info_cases.dump(file_name)
+
+    return yamlfy(info=ns(
+        message="ok"
+    ))
+
+
 # vim: ts=4 sw=4 et
