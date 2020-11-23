@@ -30,6 +30,7 @@ var extras_dict = {}
 var reason_filter = "";
 var call_reasons = {
     'general': [],
+    'infos': [],
     'extras': []
 }
 var desar = "Desa";
@@ -76,17 +77,13 @@ var getInfos = function() {
           console.debug("Error al obtenir els infos: ", response.info.message)
       }
       else{
-        console.log(response.info)
-        // call_reasons.general = response.info.claims;
-        // extras_dict = response.info.dict;
-        // call_reasons.extras = Object.keys(response.info.dict);
+        call_reasons.infos = response.info.infos;
       }
   }, function(error) {
       console.debug('Info GET apicall failed: ', error);
   });
 };
 getInfos();
-Questionnaire.getInfos = getInfos();
 
 
 var postClaim = function(info) {
@@ -110,40 +107,24 @@ var postClaim = function(info) {
 };
 
 
-var postReclama = function(claim) {
+var postInfo = function(info) {
   m.request({
     method: 'POST',
-    url: '/api/claimReasons',
-    data: claim,
+    url: '/api/infoCase',
     extract: deyamlize,
+    body: info
   }).then(function(response){
     console.debug("Info POST Response: ",response);
     if (response.info.message !== "ok" ) {
       console.debug("Error al desar motius telefon: ", response.info.message)
     }
-  }, function(error) {
-    console.debug('Info POST apicall failed: ', error);
-  });
-}
-
-
-var postInfo = function(phone, info) {
-  m.request({
-    method: 'POST',
-    url: '/api/infoReasons',
-    data: info,
-    extract: deyamlize,
-  }).then(function(response){
-    console.debug("Info POST Response: ",response);
-    if (response.info.message !== "ok" ) {
-      console.debug("Error al desar motius telefon: ", response.info.message)
-    }
-    else if (Questionnaire.call['phone'] === phone) {
-      desar='Desa';
-      Questionnaire.call.extra="";
-      reason_filter="";
-      Questionnaire.call.proc=false;
-      Questionnaire.call.improc=false;
+    else {
+      console.debug("INFO case saved")
+      desar = 'Desa';
+      Questionnaire.call.extra = "";
+      reason_filter = "";
+      Questionnaire.call.proc = false;
+      Questionnaire.call.improc = false;
     }
   }, function(error) {
     console.debug('Info POST apicall failed: ', error);
@@ -188,7 +169,7 @@ var saveLogCalls = function(
     "extra": Questionnaire.call.extra,
   }
   if (reclamacio == "") {
-      //postInfo(phone, info);
+    postInfo(info);
   }
   else {
     claim = {
@@ -204,9 +185,8 @@ var saveLogCalls = function(
       "cups": contract_cups,
       "observations": Questionnaire.call.extra,
     }
-    //postInfo(phone, info);
-    //postReclama(claim);
     postClaim(claim);
+    postInfo(info);
   }
 }
 
@@ -215,7 +195,7 @@ var llistaMotius = function() {
     var contains = value.toLowerCase().includes(reason_filter.toLowerCase());
     return contains;
   }
-  var list_reasons = call_reasons.general;
+  var list_reasons = [...call_reasons.infos, ...call_reasons.general];
   if (reason_filter !== "") {
     var filtered_regular = list_reasons.filter(conte);
     var filtered_extras = call_reasons.extras.filter(conte);
@@ -223,7 +203,7 @@ var llistaMotius = function() {
     var filtered = filtered_regular.concat(extras);
   }
   else {
-    list_reasons = call_reasons.general;
+    list_reasons = [...call_reasons.infos, ...call_reasons.general];
     var filtered = list_reasons;
   }
   var disabled = (desar === "Desant" || Questionnaire.call.date === "" );
@@ -439,92 +419,95 @@ Questionnaire.motiu = function(main_contract, partner_id) {
       "solved": true,
       "tag": tag
     }
-    Dialog.show(function() { return {
-      className: 'dialog-reclama',
-      title: 'Reclamació:',
-      backdrop: true,
-      body: [
-        seleccionaUsuari(reclamacio, tag),
-        m("br"),
-        preguntarResolt(reclamacio),
-        m("br"),
-        (!reclamacio.solved && m("") || tipusATR(reclamacio)),
-        m("br"),
-      ],
-      footerButtons: buttons(reclamacio),
-    };},{id:'fillReclama'});
+    Dialog.show(function() {
+      return {
+        className: 'dialog-reclama',
+        title: 'Reclamació:',
+        backdrop: true,
+        body: [
+          seleccionaUsuari(reclamacio, tag),
+          m("br"),
+          preguntarResolt(reclamacio),
+          m("br"),
+          (!reclamacio.solved && m("") || tipusATR(reclamacio)),
+          m("br"),
+        ],
+        footerButtons: buttons(reclamacio),
+      };},{id:'fillReclama'});
   }
-  Dialog.show(function() { return {
-    className: 'card-motius',
-    title: m(".card-motius-title", [
-      m(".motiu", 'Motiu: '),
-      m(".filter", m(Textfield, {
-        className: "textfield-filter",
-        label: "Escriure per filtrar",
-        value: reason_filter,
-        dense: true,
-        onChange: function(params) {
-          reason_filter = params.value
-        }
-      })),
-    ]),
-    backdrop: true,
-    body: [
-      m("", [
-        llistaMotius(),
-        m(".final-motius", [
-          m("strong", "Comentaris:"),
-          m(Textfield, {
-            className: "textfield-comentaris",
-            label: "Especifica més informació",
-            multiLine: true,
-            rows: 2,
-            dense: true,
-            value: Questionnaire.call['extra'],
-            onChange: function(params) {
-              Questionnaire.call['extra'] = params.value
-            },
-            disabled: (desar !== "Desa" || Questionnaire.call.date === ""),
-          }),
-        ]),
-      ])
-    ],
-    footerButtons: [
-      m(Button, {
-        label: "Sortir",
-        events: {
-            onclick: function() {
-                Dialog.hide({id:'settingsDialog'});
-            },
-        },
-        raised: true,
-      }),
-      m(Button, {
-        className: "save",
-        label: desar,
-        events: {
-          onclick: function() {
-            var tag = getTag(Questionnaire.call.reason);
-            if (esReclamacio(tag)) {
-              emplenaReclamacio(tag);
-            }
-            else {
-              enviar();
-            }
-          },
-        },
-        border: 'true',
-        disabled: (
-          desar !== "Desa" ||
-          Questionnaire.call.reason === "" ||
-          Questionnaire.call.extra === "" ||
-          Questionnaire.call.date === "" ||
-          Questionnaire.call.iden === ""
-        ),
-      }, m(Ripple)),
-    ]
-  };},{id:'settingsDialog'});
 
+  Dialog.show(function() {
+    return {
+      className: 'card-motius',
+      backdrop: true,
+      title: m(".card-motius-title", [
+        m(".motiu", 'Motiu: '),
+        m(".filter", m(Textfield, {
+          className: "textfield-filter",
+          label: "Escriure per filtrar",
+          value: reason_filter,
+          dense: true,
+          onChange: function(params) {
+            reason_filter = params.value
+          }
+        })),
+      ]),
+      body: [
+        m("", [
+          llistaMotius(),
+          m(".final-motius", [
+            m("strong", "Comentaris:"),
+            m(Textfield, {
+              className: "textfield-comentaris",
+              label: "Especifica més informació",
+              multiLine: true,
+              rows: 2,
+              dense: true,
+              value: Questionnaire.call['extra'],
+              onChange: function(params) {
+                Questionnaire.call['extra'] = params.value
+              },
+              disabled: (desar !== "Desa" || Questionnaire.call.date === ""),
+            }),
+          ]),
+        ])
+      ],
+      footerButtons: [
+        m(Button, {
+          label: "Sortir",
+          events: {
+              onclick: function() {
+                Dialog.hide({id:'settingsDialog'});
+              },
+          },
+          raised: true,
+        }),
+        m(Button, {
+          className: "save",
+          label: desar,
+          events: {
+            onclick: function() {
+              var tag = getTag(Questionnaire.call.reason);
+              if (esReclamacio(tag)) {
+                emplenaReclamacio(tag);
+              }
+              else {
+                enviar();
+                Dialog.hide({id:'settingsDialog'});
+              }
+            },
+          },
+          border: 'true',
+          disabled: (
+            desar !== "Desa" ||
+            Questionnaire.call.reason === "" ||
+            Questionnaire.call.extra === "" ||
+            Questionnaire.call.date === "" ||
+            Questionnaire.call.iden === ""
+          ),
+        }, m(Ripple)),
+      ]
+    };},{id:'settingsDialog'});
 }
 
 return Questionnaire;
