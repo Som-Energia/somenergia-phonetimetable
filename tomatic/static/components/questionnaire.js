@@ -99,7 +99,7 @@ var postClaim = function(info) {
     }
     else{
       console.debug("ATC case saved")
-      desar='Desa';
+      desar = 'Desa';
     }
   }, function(error) {
     console.debug('Info GET apicall failed: ', error);
@@ -155,8 +155,7 @@ var updateCall = function(date, partner_number, contract_number) {
     });
 }
 
-var saveLogCalls = function(
-  phone, person, reclamacio, contract_info, partner_number) {
+var saveLogCalls = function(phone, person, reclamacio, contract_info, partner_number) {
   desar = 'Desant';
   contract_number = contract_info.number;
   contract_cups = contract_info.cups;
@@ -237,7 +236,7 @@ var llistaMotius = function() {
 
 Questionnaire.motiu = function(main_contract, partner_id) {
 
-  var enviar = function(reclamacio="") {
+  var enviar = function(reclamacio = "") {
     saveLogCalls(
       Questionnaire.call.phone,
       Questionnaire.call.iden,
@@ -245,7 +244,7 @@ Questionnaire.motiu = function(main_contract, partner_id) {
       main_contract,
       partner_id
     );
-    Questionnaire.call.reason="";
+    Questionnaire.call.reason = "";
   }
 
   var getTag = function(reason) {
@@ -401,8 +400,8 @@ Questionnaire.motiu = function(main_contract, partner_id) {
         events: {
           onclick: function() {
             enviar(reclamacio);
-            Dialog.hide({id:'fillReclama'});
-            Dialog.hide({id:'settingsDialog'});
+            Dialog.hide({ id: 'fillReclama' });
+            Dialog.hide({ id: 'settingsDialog' });
           },
         },
         disabled: (reclamacio.tag === "ASSIGNAR USUARI"),
