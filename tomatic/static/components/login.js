@@ -41,7 +41,7 @@ var getServerSockInfo = function() {
         console.debug('Info GET apicall failed WebSock: ', error);
     });
 }
-// getServerSockInfo();
+getServerSockInfo();
 
 Login.myName = function() {
     info = whoAreYou();
@@ -51,7 +51,7 @@ Login.myName = function() {
 
 Login.logout = function(){
     document.cookie = tomaticCookie + "=; expires = Thu, 01 Jan 1970 00:00:00 GMT;path=/";
-	// sendIdentification();
+	sendIdentification();
 }
 
 function sendIdentification() {
@@ -121,7 +121,7 @@ var setCookieInfo = function(vnode){
         var expires = "expires="+ exp.toUTCString();
         document.cookie = tomaticCookie + "=" + value + ";" + expires + ";path=/";
     }
-    // sendIdentification();
+    sendIdentification();
 }
 
 
