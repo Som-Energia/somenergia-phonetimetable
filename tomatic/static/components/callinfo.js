@@ -152,7 +152,7 @@ var responsesMessage = function(info) {
   if (solved) {
     var partner = info["partner"];
       message += ", " + (partner == "" ? "Sense informació" : partner);
-      if (info["contracte"] !== "") {
+      if ("contracte" in info) {
           message += ", " + info["contracte"];
       }
   }
@@ -459,6 +459,9 @@ CallInfo.mainPage = function() {
         primary: {
           title: m('',[
             kalinfoBrowser(),
+            Questionnaire.infoQuestionnaire(
+              (isEmpty(CallInfo.file_info) || CallInfo.file_info[1] === "toomuch") && Questionnaire.call.date !== ""
+            ),
             lockCall(),
           ]),
         },

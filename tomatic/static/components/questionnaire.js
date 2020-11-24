@@ -189,31 +189,44 @@ var saveLogCalls = function(phone, person, reclamacio, contract_info, partner_nu
   }
 }
 
-var llistaMotius = function() {
-  function conte(value) {
+
+var llistaMotius = function( all = true ) {
+
+  function contains(value) {
     var contains = value.toLowerCase().includes(reason_filter.toLowerCase());
     return contains;
   }
-  var list_reasons = [...call_reasons.infos, ...call_reasons.general];
+
+  var list_reasons = all ? [...call_reasons.infos, ...call_reasons.general] : call_reasons.infos;
+
   if (reason_filter !== "") {
-    var filtered_regular = list_reasons.filter(conte);
-    var filtered_extras = call_reasons.extras.filter(conte);
-    var extras = getExtras(filtered_extras);
-    var filtered = filtered_regular.concat(extras);
+    var filtered_regular = list_reasons.filter(contains);
+    if (all) {
+      var filtered_extras = call_reasons.extras.filter(contains);
+      var extras = getExtras(filtered_extras);
+      var filtered = filtered_regular.concat(extras);
+    }
+    else {
+      var filtered = filtered_regular
+    }
   }
   else {
-    list_reasons = [...call_reasons.infos, ...call_reasons.general];
+    // list_reasons = [...call_reasons.infos, ...call_reasons.general];
     var filtered = list_reasons;
   }
+
   var disabled = (desar === "Desant" || Questionnaire.call.date === "" );
+
   return m(".motius", m(List, {
     compact: true,
     indentedBorder: true,
     tiles: filtered.map(function(reason) {
       return m(ListTile, {
-        className: (Questionnaire.call.reason === reason ?
-          "llista-motius-selected" :
-          "llista-motius-unselected"),
+        className: (
+          Questionnaire.call.reason === reason
+          ? "llista-motius-selected"
+          : "llista-motius-unselected"
+        ),
         compact: true,
         selectable: true,
         ink: 'true',
@@ -223,16 +236,120 @@ var llistaMotius = function() {
         title: reason,
         selected: Questionnaire.call.reason == reason,
         events: {
-            onclick: function(ev) {
-                Questionnaire.call['reason'] = reason
-            }
+          onclick: function(ev) {
+            Questionnaire.call['reason'] = reason
+          }
         },
         disabled: disabled,
-         bordered: true,
+          bordered: true,
        });
     }),
   }));
 }
+
+var onlyInfosDialog = function() {
+
+  var enviar = function() {
+    saveLogCalls(
+      Questionnaire.call.phone,
+      Questionnaire.call.iden,
+      "",
+      { "number": "", "cups": "" },
+      ""
+    );
+    Questionnaire.call.reason = "";
+  }
+
+  Dialog.show( function() {
+    return {
+      className: 'card-motius',
+      backdrop: true,
+      title: m(".card-motius-title", [
+        m(".motiu", 'Motiu: '),
+        m(".filter",
+          m(Textfield, {
+            className: "textfield-filter",
+            label: "Escriure per filtrar",
+            value: reason_filter,
+            dense: true,
+            onChange: function(params) {
+              reason_filter = params.value
+            }
+          })),
+      ]),
+      body: [
+        m("", [
+          llistaMotius( all=false ),
+          m(".final-motius", [
+            m("strong", "Comentaris:"),
+            m(Textfield, {
+              className: "textfield-comentaris",
+              label: "Especifica més informació",
+              multiLine: true,
+              rows: 2,
+              dense: true,
+              value: Questionnaire.call['extra'],
+              onChange: function(params) {
+                Questionnaire.call['extra'] = params.value
+              },
+              disabled: (desar !== "Desa" || Questionnaire.call.date === ""),
+            }),
+          ]),
+        ])
+      ],
+      footerButtons: [
+        m(Button, {
+          label: "Sortir",
+          events: {
+              onclick: function() {
+                Dialog.hide({id:'onlyInfosDialog'});
+              },
+          },
+          raised: true,
+        }),
+        m(Button, {
+          className: "save",
+          label: desar,
+          events: {
+            onclick: function() {
+              enviar();
+              Dialog.hide({id:'onlyInfosDialog'});
+            },
+          },
+          border: 'true',
+          disabled: (
+            desar !== "Desa" ||
+            Questionnaire.call.reason === "" ||
+            Questionnaire.call.extra === "" ||
+            Questionnaire.call.date === "" ||
+            Questionnaire.call.iden === ""
+          ),
+        }, m(Ripple)),
+      ]
+    }; }, { id: 'onlyInfosDialog' });
+}
+
+
+Questionnaire.infoQuestionnaire = function(visible=false) {
+  return visible
+  ? m(Button, {
+      className: "infos",
+      label: "INFOS",
+      events: {
+        onclick: function() {
+          console.log("VEURE QÜESTIONARI INFOS")
+          onlyInfosDialog();
+        },
+      },
+      border: 'true',
+      disabled: (
+        desar !== "Desa" ||
+        Questionnaire.call.iden === ""
+      ),
+    }, m(Ripple))
+  : ""
+}
+
 
 Questionnaire.motiu = function(main_contract, partner_id) {
 
