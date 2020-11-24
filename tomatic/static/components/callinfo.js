@@ -247,10 +247,10 @@ var infoPhone = function () {
   if (isEmpty(CallInfo.file_info)) {
     return m('.plane-info', m("body", 'No hi ha informació.'));
   }
-  else if (CallInfo.file_info[1]==="empty"){
+  else if (CallInfo.file_info[1] === "empty"){
     return m('.plane-info', m(Spinner, { show: "true" } ));
   }
-  else if (CallInfo.file_info[1]==="toomuch"){
+  else if (CallInfo.file_info[1] === "toomuch"){
     return m('.plane-info',
       m("body", 'Cerca poc específica, retorna masses resultats.')
     );
