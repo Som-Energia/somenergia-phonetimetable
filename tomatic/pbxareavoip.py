@@ -80,13 +80,13 @@ class AreaVoip(object):
 
     def add(self, queue, name):
         response = self._api('QUEUE', action='add',
-            number = queue,
+            id = queue,
             extension = persons.persons().extensions[name],
         )
 
     def clear(self, queue):
         response = self._api('QUEUE', action='clean',
-            number = queue,
+            id = queue,
         )
 
 
