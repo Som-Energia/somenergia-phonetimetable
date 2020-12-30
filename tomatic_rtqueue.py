@@ -20,7 +20,7 @@ def table(data):
 
 
 queue_option = click.option('--queue', '-q',
-	default=10,
+	default=dbconfig.tomatic.areavoip.queue,
 	help="nom de la cua"
 	)
 members_option = click.option('--member', '-m',
