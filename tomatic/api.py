@@ -166,6 +166,7 @@ def editSlot(week, day, houri, turni, name):
 
 
 @app.route('/api/graella/list')
+@yamlerrors
 def listGraelles():
     return yamlfy(weeks=schedules.list())
 
@@ -208,12 +209,14 @@ def retireOldTimeTable():
     return yamlfy(result='ok')
 
 @app.route('/api/queue')
+@yamlerrors
 def get_queue():
     return yamlfy(
         currentQueue = pbx().currentQueue()
     )
 
 @app.route('/api/queue/add/<person>')
+@yamlerrors
 def add_line(person):
     p = pbx()
     p.addLine(person)
@@ -222,6 +225,7 @@ def add_line(person):
     )
 
 @app.route('/api/queue/pause/<person>')
+@yamlerrors
 def pause_line(person):
     p = pbx()
     p.pause(person)
@@ -230,6 +234,7 @@ def pause_line(person):
     )
 
 @app.route('/api/queue/resume/<person>')
+@yamlerrors
 def resume_line(person):
     p = pbx()
     p.resume(person)
@@ -254,6 +259,7 @@ def persons():
     )
 
 @app.route('/api/persons/extension/<extension>')
+@yamlerrors
 def personInfoFromExtension(extension):
     allpersons=persons()
     names = [name for name,ext in allpersons.extensions.items() if ext == extension]
@@ -264,11 +270,13 @@ def personInfoFromExtension(extension):
     return email
 
 @app.route('/api/persons/')
+@yamlerrors
 def personInfo():
     result=persons()
     return yamlfy(persons=result)
 
 @app.route('/api/person/<person>', methods=['POST'])
+@yamlerrors
 def setPersonInfo(person):
     result = persons()
     print(request.data)
@@ -294,17 +302,20 @@ def setPersonInfo(person):
     return yamlfy(persons=result)
 
 @app.route('/api/busy/<person>', methods=['GET'])
+@yamlerrors
 def busy(person):
     from . import busy
     return yamlfy(**busy.busy(person))
 
 @app.route('/api/busy/<person>', methods=['POST'])
+@yamlerrors
 def busy_post(person):
     from . import busy
     data = ns.loads(request.data)
     return yamlfy(**busy.update_busy(person, data))
 
 @app.route('/api/busy/download/weekly')
+@yamlerrors
 def downloadWeeklyBusy():
     response = send_file(
         '../indisponibilitats.conf',
@@ -315,6 +326,7 @@ def downloadWeeklyBusy():
     return response
 
 @app.route('/api/busy/download/oneshot')
+@yamlerrors
 def downloadOneShotBusy():
     return send_file(
         '../oneshot.conf',
