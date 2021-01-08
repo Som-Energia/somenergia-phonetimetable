@@ -23,7 +23,7 @@ tomatic:
           filename: carrega-{monday}.yaml
 
     retireold:
-      script: curl -q http://192.168.35.244:4555/api/graella/retireold
+      script: curl -q http://192.168.35.244/api/graella/retireold
       title: Graelles - Retira les graelles antigues
       description: >
         Amaga les graelles antigues conservant només la de la setmana anterior.
